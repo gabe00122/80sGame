@@ -12,7 +12,7 @@ public class TestGame implements Game{
 	public TestGame() {
 		actors = new ArrayList<>();
 		
-		addActor(new Frog());
+		addActor(new Pacman());
 	}
 	
 	@Override
