@@ -1,3 +1,4 @@
+package pacman;
 
 
 import javax.swing.JFrame;
@@ -14,7 +15,7 @@ public class Main {
 		frame.setTitle("pacman");
 		
 		
-		TestGame test = new TestGame();
+		PacmanGame test = new PacmanGame();
 		GameDisplay display = new GameDisplay(test);
 		display.setTargetFps(60);
 		

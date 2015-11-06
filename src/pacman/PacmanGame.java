@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,11 +6,11 @@ import java.util.List;
 import gabe00122.swinggames.Game;
 import gabe00122.swinggames.Input;
 
-public class TestGame implements Game{
+public class PacmanGame implements Game{
 	private Input input;
 	private List<Actor> actors;
 	
-	public TestGame() {
+	public PacmanGame() {
 		actors = new ArrayList<>();
 		
 		addActor(new Pacman());

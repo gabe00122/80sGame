@@ -1,3 +1,4 @@
+package pacman;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -8,8 +9,6 @@ public class Pacman extends Actor{
 	private Sprite shipSprite;
 	private static final double SPEED = 150;;
 	
-	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
-	
 	public Pacman(){
 		super();
 		
@@ -17,7 +16,7 @@ public class Pacman extends Actor{
 		setSize(50, 50);
 		
 		shipSprite = new Sprite(Resources.ship);
-		shipSprite.setSize(getWeight(), getHight());
+		shipSprite.setSize(getWidth(), getHeight());
 	}
 	
 	@Override
