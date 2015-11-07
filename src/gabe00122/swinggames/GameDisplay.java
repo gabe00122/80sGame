@@ -3,13 +3,15 @@ package gabe00122.swinggames;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
-public class GameDisplay extends JComponent implements KeyListener, Runnable{
+public class GameDisplay extends JComponent implements KeyListener, ComponentListener, Runnable{
 	private static final long serialVersionUID = 1L;
 	
 	private static final double SECOND = 1000000000;
@@ -24,10 +26,17 @@ public class GameDisplay extends JComponent implements KeyListener, Runnable{
 	
 	private Game game;
 	
-	public GameDisplay(Game game) {
+	private int w, h;
+	private AffineTransform trans;
+	
+	public GameDisplay(Game game, int width, int height) {
 		setFocusable(true);
 		addKeyListener(this);
+		addComponentListener(this);
 		setDoubleBuffered(true);
+		
+		w = width;
+		h = height;
 		
 		keyboard = new Input();
 		targetFps = 60;
@@ -35,6 +44,8 @@ public class GameDisplay extends JComponent implements KeyListener, Runnable{
 		
 		fpsTrackerTime = 0;
 		fpsTrackerFrames = 0;
+		
+		trans = new AffineTransform();
 		
 		this.game = game;
 		game.setInput(keyboard);
@@ -44,11 +55,32 @@ public class GameDisplay extends JComponent implements KeyListener, Runnable{
 		targetFps = fps;
 	}
 	
+	private void updateTransform(){
+		double xScale = (double)getWidth()/w;
+		double yScale = (double)getHeight()/h;
+		
+		trans.setToIdentity();
+		if(xScale < yScale){
+			trans.translate(0, (getHeight() - h * xScale)/2.0);
+			trans.scale(xScale, xScale);
+		} else {
+			trans.translate((getWidth() - w * yScale)/2.0, 0);
+			trans.scale(yScale, yScale);
+		}
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
+		AffineTransform saveX = g2.getTransform();
+		g2.setTransform(trans);
+		g2.clipRect(0, 0, w, h);
+		
 		game.draw(g2);
+		
+		g2.setClip(null);
+		g2.setTransform(saveX);
 		
 		drawFps(g2);
 	}
@@ -118,6 +150,23 @@ public class GameDisplay extends JComponent implements KeyListener, Runnable{
 		game.update(deltaTime);
 		
 		repaint();
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		updateTransform();
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
 	}
 	
 }

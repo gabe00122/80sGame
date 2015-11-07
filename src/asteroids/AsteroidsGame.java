@@ -32,6 +32,7 @@ public class AsteroidsGame implements Game{
 	
 	@Override
 	public void draw(Graphics2D g) {
+		g.fillRect(0, 0, (int)mapW, (int)mapH);
 		for(int i = 0;i < actors.size();i++){
 			actors.get(i).draw(g);
 		}
