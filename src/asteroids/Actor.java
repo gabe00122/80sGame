@@ -44,7 +44,11 @@ public abstract class Actor {
 	public double getAngSpeed() {
 		return angSpeed;
 	}
-
+	
+	public boolean collide(Rectangle2D.Double other){
+		return getRect().intersects(other);
+	}
+	
 	public void setAngSpeed(double angSpeed) {
 		this.angSpeed = angSpeed;
 	}
@@ -110,9 +114,17 @@ public abstract class Actor {
 		return game;
 	}
 	
+	public Rectangle2D.Double getRect(){
+		return new Rectangle2D.Double(rect.x - rect.width/2, rect.y - rect.width/2,
+				rect.width, rect.height);
+	}
 	
 	public abstract void draw(Graphics2D g);
 	public abstract void init();
+	public void destroy(){
+		getGame().removeActor(this);
+	}
+	
 	public void update(double delta){
 		move(speedX * delta, speedY * delta);
 		ang += angSpeed * delta;

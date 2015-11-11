@@ -1,12 +1,12 @@
 package asteroids;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-
 import gabe00122.swinggames.Input;
 import gabe00122.swinggames.Sprite;
 
 public class Ship extends Actor{
 	private Sprite shipSprite;
+	private boolean fireRelease;
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -33,10 +33,31 @@ public class Ship extends Actor{
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
 			setAng(getAng() + 10);
 		}
+		if(input.isKeyDown(KeyEvent.VK_SPACE)){
+			if(fireRelease){
+				Shot shot = new Shot();
+				shot.setAng(getAng());
+				shot.setPosition(getX(), getY());
+				shot.setSpeedX(getSpeedX());
+				shot.setSpeedY(getSpeedY());
+				
+				getGame().addActor(shot);
+				fireRelease = false;
+			}
+		} else {
+			fireRelease = true;
+		}
 	}
-
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		getGame().gameOver();
+	}
+	
 	@Override
 	public void init() {
+		fireRelease = true;
 		setPosition(100, 100);
 		setSize(50, 50);
 		

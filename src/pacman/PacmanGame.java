@@ -9,8 +9,11 @@ import gabe00122.swinggames.Input;
 public class PacmanGame implements Game{
 	private Input input;
 	private List<Actor> actors;
+	private Maze maze;
 	
 	public PacmanGame() {
+		maze = new Maze();
+		
 		actors = new ArrayList<>();
 		
 		addActor(new Pacman());
@@ -18,6 +21,7 @@ public class PacmanGame implements Game{
 	
 	@Override
 	public void draw(Graphics2D g) {
+		maze.draw(g);
 		for(int i = 0;i < actors.size();i++){
 			actors.get(i).draw(g);
 		}
