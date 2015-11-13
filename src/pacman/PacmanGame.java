@@ -33,7 +33,11 @@ public class PacmanGame implements Game{
 			actors.get(i).update(delta);
 		}
 	}
-
+	
+	public Maze getMaze(){
+		return maze;
+	}
+	
 	public void addActor(Actor actor){
 		actor.setGame(this);
 		actors.add(actor);

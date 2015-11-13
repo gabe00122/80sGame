@@ -47,7 +47,7 @@ public class Shot extends Actor{
 				destroy();
 			} else if(other instanceof Ship){
 				if(age > 1){
-					other.destroy();
+					//other.destroy();
 				}
 			}
 		}

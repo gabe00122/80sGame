@@ -8,6 +8,11 @@ public class Ship extends Actor{
 	private Sprite shipSprite;
 	private boolean fireRelease;
 	
+	public Ship() {
+		setPosition(100, 100);
+		setSize(50, 50);
+	}
+	
 	@Override
 	public void draw(Graphics2D g) {
 		shipSprite.setPosition(getX(), getY());
@@ -58,8 +63,6 @@ public class Ship extends Actor{
 	@Override
 	public void init() {
 		fireRelease = true;
-		setPosition(100, 100);
-		setSize(50, 50);
 		
 		shipSprite = new Sprite(Resources.ship);
 		shipSprite.setSize(getWidth(), getHeight());

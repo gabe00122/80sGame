@@ -11,8 +11,11 @@ public class Maze {
 	private int mapW;
 	private int mapH;
 	
+	private MazeTile nullTile;
+	
 	public Maze(){
 		loadDefaults();
+		nullTile = new MazeTile(TileType.NULL);
 	}
 	
 	public void draw(Graphics2D g){
@@ -27,23 +30,28 @@ public class Maze {
 		if(x >= 0 && x < mapW && y >= 0 && y < mapH){
 			return tiles[y][x];
 		} else {
-			return null;
+			return nullTile;
 		}
 	}
 	
-	public void loadDefaults(){
-		mapW = 20;
-		mapH = 20;
+	public void loadTextMap(String[] tMap){
+		mapH = tMap.length;
+		mapW = tMap[0].length();
+		
 		tiles = new MazeTile[mapH][mapW];
 		
-		for(int y = 0;y < mapH;y++){
-			for(int x = 0;x < mapW;x++){
-				if(y % 2 == 0)
-					tiles[y][x] = new MazeTile(TileType.WALL);
-				else{
-					tiles[y][x] = new MazeTile(TileType.SPACE);
-				}
+		for(int y = 0; y < mapH; y++){
+			for(int x = 0; x < mapW; x++){
+				tiles[y][x] = new MazeTile(tMap[y].charAt(x));
 			}
 		}
+	}
+	
+	public MazeTile getTileAt(double x, double y){
+		return getTile((int)(x/TILE_WEIGHT), (int)(y/TILE_HEIGHT));
+	}
+	
+	public void loadDefaults(){
+		loadTextMap(Resources.map);
 	}
 }

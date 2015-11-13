@@ -36,11 +36,13 @@ public class AsteroidsGame implements Game{
 	private void reset(){
 		actors.clear();
 		
-		level = 0;
+		level = 1;
 		score = 0;
 		playing = true;
 		
-		addActor(new Ship());
+		Ship ship = new Ship();
+		ship.setPosition(400, 400);
+		addActor(ship);
 		nextLevel();
 	}
 	
