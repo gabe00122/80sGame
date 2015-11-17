@@ -14,7 +14,7 @@ public class MazeTile {
 	public MazeTile(char c){
 		if(c == '#'){
 			tileType = TileType.WALL;
-		} else if(c == '.'){
+		} else {
 			tileType = TileType.SPACE;
 		}
 	}
