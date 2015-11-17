@@ -14,6 +14,7 @@ public class PacmanGame implements Game{
 		actors = new ArrayList<>();
 		
 		addActor(new Pacman());
+		addActor(new Ghost());
 	}
 	
 	@Override

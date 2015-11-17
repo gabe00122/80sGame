@@ -31,19 +31,19 @@ public class Pacman extends Actor{
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){
 			move(0, -SPEED * delta);
-			shipSprite.setRotation(0);
+			shipSprite.setRotation(270);
 		}
 		if(input.isKeyDown(KeyEvent.VK_DOWN)){
 			move(0, SPEED * delta);
-			shipSprite.setRotation(180);
+			shipSprite.setRotation(90);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_LEFT)){
 			move(-SPEED * delta, 0);
-			shipSprite.setRotation(270);
+			shipSprite.setRotation(180);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
 			move(SPEED * delta, 0);
-			shipSprite.setRotation(90);
+			shipSprite.setRotation(0);
 		}
 	}
 	
