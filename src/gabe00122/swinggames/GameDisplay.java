@@ -1,6 +1,7 @@
 package gabe00122.swinggames;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
@@ -15,6 +16,8 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	private static final long serialVersionUID = 1L;
 	
 	private static final double SECOND = 1000000000;
+	
+	private static final Font FPS_FONT = new Font(Font.DIALOG, Font.PLAIN, 20);
 	
 	private Input keyboard;
 	private int targetFps;
@@ -138,7 +141,8 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	}
 	
 	private void drawFps(Graphics2D g){
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
+		g.setFont(FPS_FONT);
 		g.drawString("FPS: " + currentFPS, 10, 20);
 	}
 	

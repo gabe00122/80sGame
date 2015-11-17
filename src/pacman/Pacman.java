@@ -26,24 +26,44 @@ public class Pacman extends Actor{
 	}
 
 	@Override
+	public boolean collidesWithTile(MazeTile t) {
+		return t.playerCollides();
+	}
+	
+	@Override
 	public void update(double delta) {
 		Input input = getGame().getInput();
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){
-			move(0, -SPEED * delta);
 			shipSprite.setRotation(270);
+			
+			if(canMoveY(-SPEED * delta))
+			{
+				move(0, -SPEED * delta);
+			}
 		}
 		if(input.isKeyDown(KeyEvent.VK_DOWN)){
-			move(0, SPEED * delta);
 			shipSprite.setRotation(90);
+			if(canMoveY(SPEED * delta))
+			{
+				move(0, SPEED * delta);
+			}
 		} 
 		if(input.isKeyDown(KeyEvent.VK_LEFT)){
-			move(-SPEED * delta, 0);
 			shipSprite.setRotation(180);
+			
+			if(canMoveX(-SPEED * delta))
+			{
+				move(-SPEED * delta, 0);
+			}
 		} 
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
-			move(SPEED * delta, 0);
 			shipSprite.setRotation(0);
+
+			if(canMoveX(SPEED * delta))
+			{
+				move(SPEED * delta, 0);
+			}
 		}
 	}
 	
