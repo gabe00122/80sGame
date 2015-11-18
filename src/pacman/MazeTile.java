@@ -14,7 +14,14 @@ public class MazeTile {
 	public MazeTile(char c){
 		if(c == '#'){
 			tileType = TileType.WALL;
-		} else {
+		} else if(c == '.'){
+			tileType = TileType.PAC_DOT;
+		} else if(c == 'D'){
+			tileType = TileType.DOOR;
+		} else if(c == 'P'){
+			tileType = TileType.PACMAN_SPAWN;
+		}
+		else {
 			tileType = TileType.SPACE;
 		}
 	}
@@ -27,6 +34,10 @@ public class MazeTile {
 			g.setColor(tileType.color);
 			g.fillRect(x1, y1, Maze.TILE_WEIGHT, Maze.TILE_HEIGHT);
 		}
+	}
+	
+	public TileType getTileType(){
+		return tileType;
 	}
 	
 	public boolean isVisible(){
@@ -42,7 +53,7 @@ public class MazeTile {
 	}
 	
 	public enum TileType{
-		NULL, SPACE, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
+		NULL, SPACE, PAC_DOT, PACMAN_SPAWN, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
 		
 		private Color color;
 		private boolean playerCollide;

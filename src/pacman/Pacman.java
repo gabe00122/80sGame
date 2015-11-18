@@ -1,6 +1,7 @@
 package pacman;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import gabe00122.swinggames.Input;
 import gabe00122.swinggames.Sprite;
@@ -64,6 +65,16 @@ public class Pacman extends Actor{
 			{
 				move(SPEED * delta, 0);
 			}
+		}
+		
+		for (Actor other: getGame().checkCollisons(getX(), getY(), getWidth(), getHeight())) {
+			collison(other);
+		}
+	}
+	
+	private void collison(Actor other){
+		if(other instanceof PacDot){
+			getGame().removeActor(other);
 		}
 	}
 	
