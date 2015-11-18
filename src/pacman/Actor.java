@@ -3,7 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Actor {
-	private static final double COLLISION_PADDING = 2;
+	private static final double COLLISION_PADDING = 4;
 	
 	private PacmanGame game;
 	private Rectangle2D.Double rect;
