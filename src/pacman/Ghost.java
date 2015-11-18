@@ -1,7 +1,7 @@
 package pacman;
 import java.awt.Graphics2D;
 
-import gabe00122.swinggames.Input;
+//import gabe00122.swinggames.Input;
 import gabe00122.swinggames.Sprite;
 
 public class Ghost extends Actor 
@@ -12,7 +12,7 @@ public class Ghost extends Actor
 	{
 		super();
 		setPosition(400, 400);
-		setSize(25, 25);
+		setSize(50, 50);
 		
 		//creating ghosts (blue, red, pink, orange)
 		ghost1Sprite = new Sprite(Resources.ghostB);
@@ -27,14 +27,51 @@ public class Ghost extends Actor
 		//create a scared ghost for later
 		ghostScaredSprite = new Sprite(Resources.ghostS);
 		ghostScaredSprite.setSize(getWidth(), getHeight());
+		
+		
+		ghost1Sprite.setPosition(getX(), getY());
+		ghost2Sprite.setPosition(getX()+50, getY());
+		ghost3Sprite.setPosition(getX()+100, getY());
+		ghost4Sprite.setPosition(getX()-50, getY());
+		//ghostScaredSprite.setPosition(getX()-100, getY());
+		
+		//will call once pacman starts moving
+		//moveGhost(ghost1Sprite);
+		//moveGhost(ghost2Sprite);
+		//moveGhost(ghost3Sprite);
+		//moveGhost(ghost4Sprite);
+		
+		
+		
 	}
 	
 	/**
 	 * the way the ghosts move, different for each color (Blue, Red, Orange, Pink)
 	 */
-	public void move()
+	public void moveGhost(Sprite g)
 	{
 		//when game starts, ghosts start moving
+		if (g == ghost1Sprite)
+		{
+			//how ghost 1 will move
+			ghost1Sprite.setPosition(getX(), getY());
+		}
+		else if (g == ghost2Sprite )
+		{
+			//how ghost 2 will move
+			ghost2Sprite.setPosition(getX() - 50, getY()+ 100);
+		}
+		else if (g == ghost3Sprite )
+		{
+			//how ghost 3 will move
+			ghost3Sprite.setPosition(getX() + 100, getY()+ 100);
+		}
+		else if (g == ghost4Sprite )
+		{
+			//how ghost 4 will move
+			ghost2Sprite.setPosition(getX() -100, getY()+ 100);
+		}
+		
 		
 	}
 	
@@ -63,11 +100,7 @@ public class Ghost extends Actor
 	public void draw(Graphics2D g) 
 	{
 		//drawing ghosts
-		ghost1Sprite.setPosition(getX(), getY());
-		ghost2Sprite.setPosition(getX()+25, getY());
-		ghost3Sprite.setPosition(getX()+50, getY());
-		ghost4Sprite.setPosition(getX()+75, getY());
-		ghostScaredSprite.setPosition(getX()+125, getY());
+		
 		ghost1Sprite.draw(g);
 		ghost2Sprite.draw(g);
 		ghost3Sprite.draw(g);

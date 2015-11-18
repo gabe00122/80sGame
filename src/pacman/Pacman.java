@@ -7,7 +7,7 @@ import gabe00122.swinggames.Sprite;
 
 public class Pacman extends Actor{
 	private Sprite shipSprite;
-	private static final double SPEED = 150;;
+	private static final double SPEED = 150;
 	
 	public Pacman(){
 		super();
