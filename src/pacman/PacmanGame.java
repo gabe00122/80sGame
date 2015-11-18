@@ -40,6 +40,13 @@ public class PacmanGame implements Game{
 		}
 	}
 	
+	public void removePacDot(){
+		dotCount--;
+		if(dotCount == 0){
+			addPacDots();
+		}
+	}
+	
 	private void addPacmanAndGhosts(){
 		for(int y = 0;y < maze.getMazeH(); y++){
 			for(int x = 0; x < maze.getMazeW(); x++){
