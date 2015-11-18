@@ -17,9 +17,9 @@ public class Resources {
 		try {
 			ship = ImageIO.read(new File("assets/pacman.png"));
 			ghostB = ImageIO.read(new File("assets/blueGhost.png"));
-			ghostR = ImageIO.read(new File("assets/orangeGhost.png"));
-			ghostP = ImageIO.read(new File("assets/redGhost.png"));
-			ghostO = ImageIO.read(new File("assets/pinkGhost.png"));
+			ghostO = ImageIO.read(new File("assets/orangeGhost.png"));
+			ghostR = ImageIO.read(new File("assets/redGhost.png"));
+			ghostP = ImageIO.read(new File("assets/pinkGhost.png"));
 			
 			ghostS = ImageIO.read(new File("assets/scaredGhost.png"));
 			
