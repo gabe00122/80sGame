@@ -14,7 +14,6 @@ public class Maze {
 	private MazeTile nullTile;
 	
 	public Maze(){
-		loadDefaults();
 		nullTile = new MazeTile(TileType.NULL);
 	}
 	
@@ -24,6 +23,14 @@ public class Maze {
 				tiles[y][x].draw(g, this, x, y);
 			}
 		}
+	}
+	
+	public int getMazeW(){
+		return mapW;
+	}
+	
+	public int getMazeH(){
+		return mapH;
 	}
 	
 	public MazeTile getTile(int x, int y){
@@ -49,9 +56,5 @@ public class Maze {
 	
 	public MazeTile getTileAt(double x, double y){
 		return getTile((int)(x/TILE_WEIGHT), (int)(y/TILE_HEIGHT));
-	}
-	
-	public void loadDefaults(){
-		loadTextMap(Resources.map);
 	}
 }

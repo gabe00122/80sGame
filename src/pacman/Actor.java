@@ -94,6 +94,11 @@ public abstract class Actor {
 		rect.height = h;
 	}
 	
+	public boolean checkCollison(double x, double y, double w, double h){
+		return getX()-getWidth()/2 < x+w/2 && getX()+getWidth()/2 > x-w/2 &&
+			   getY()-getHeight()/2 < y+h/2 && getY()+getHeight()/2 > y-w/2;
+	}
+	
 	public void setPosition(double x, double y){
 		rect.x = x;
 		rect.y = y;
