@@ -1,8 +1,9 @@
 package asteroids;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import gabe00122.swinggames.Input;
-import gabe00122.swinggames.Sprite;
+
+import swinggames.Input;
+import swinggames.Sprite;
 
 public class Ship extends Actor{
 	private Sprite shipSprite;

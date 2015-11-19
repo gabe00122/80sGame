@@ -3,8 +3,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Actor {
-	private static final double COLLISION_PADDING = 4;
-	
 	private PacmanGame game;
 	private Rectangle2D.Double rect;
 	
@@ -40,46 +38,7 @@ public abstract class Actor {
 		rect.x += changeX;
 		rect.y += changeY;
 	}
-
-	public boolean canMoveX(double changeX){
-		double newX = changeX + getX();
-		
-		if(changeX > 0){
-			return !collidesWithTile(newX+getWidth()/2, getY()) &&
-				   !collidesWithTile(newX+getWidth()/2, getY() + getHeight()/2 -COLLISION_PADDING) &&
-				   !collidesWithTile(newX+getWidth()/2, getY() - getHeight()/2 +COLLISION_PADDING);
-		} else if(changeX < 0){
-			return !collidesWithTile(newX-getWidth()/2, getY()) &&
-				   !collidesWithTile(newX-getWidth()/2, getY() + getHeight()/2 -COLLISION_PADDING) &&
-				   !collidesWithTile(newX-getWidth()/2, getY() - getHeight()/2 +COLLISION_PADDING);
-		}
-		
-		return true;
-	}
 	
-	public boolean canMoveY(double changeY){
-		double newY = changeY + getY();
-		
-		if(changeY > 0){
-			return !collidesWithTile(getX(), newY + getHeight()/2) &&
-				   !collidesWithTile(getX()+getWidth()/2 -COLLISION_PADDING, newY + getHeight()/2) &&
-				   !collidesWithTile(getX()-getWidth()/2 +COLLISION_PADDING, newY + getHeight()/2);
-		} else if(changeY < 0){
-			return !collidesWithTile(getX(), newY - getHeight()/2) &&
-				   !collidesWithTile(getX()+getWidth()/2 -COLLISION_PADDING, newY - getHeight()/2) &&
-				   !collidesWithTile(getX()-getWidth()/2 +COLLISION_PADDING, newY - getHeight()/2);
-		}
-		
-		return true;
-	}
-	
-	private boolean collidesWithTile(double x, double y){
-		return collidesWithTile(getGame().getMaze().getTileAt(x, y));
-	}
-	
-	public boolean collidesWithTile(MazeTile t){
-		return false;
-	}
 	
 	public double getHeight() {
 		return rect.height;

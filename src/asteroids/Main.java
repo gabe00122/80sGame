@@ -3,7 +3,7 @@ package asteroids;
 
 import javax.swing.JFrame;
 
-import gabe00122.swinggames.GameDisplay;
+import swinggames.GameDisplay;
 
 public class Main {
 	public static void main(String[] args){

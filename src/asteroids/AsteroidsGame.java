@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import gabe00122.swinggames.Game;
-import gabe00122.swinggames.Input;
+import swinggames.Game;
+import swinggames.Input;
 
 public class AsteroidsGame implements Game{
 	private static final Font SCORE_FONT = new Font(Font.DIALOG, Font.PLAIN, 20);
