@@ -1,7 +1,6 @@
 package pacman;
 import java.awt.Graphics2D;
 
-import swinggames.Input;
 import swinggames.Sprite;
 
 public class Ghost extends Actor 

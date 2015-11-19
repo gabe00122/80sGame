@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Actor {
 	private PacmanGame game;
-	private Rectangle2D.Double rect;
+	protected Rectangle2D.Double rect;
 	
 	public Actor(){
 		rect = new Rectangle2D.Double(0, 0, 0, 0);
