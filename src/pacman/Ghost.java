@@ -20,6 +20,7 @@ public class Ghost extends Actor
 	
 	
 	
+	
 	public Ghost()
 	{
 		super();
@@ -46,66 +47,93 @@ public class Ghost extends Actor
 		//ghostScaredSprite.setPosition(getX()-100, getY());	
 	}
 	
-	public void travel(Sprite g)
-	{
-		
-		g.setPosition(chX, chY);
-		
-	}
+	
 	
 	/**
 	 * the way the ghosts move, different for each color (Blue, Red, Orange, Pink)
 	 */
-	public void moveGhost(Sprite g)
+	public void chasePacman(Sprite g)
 	{
+		//use paacmans location to move towards a certain tile
+		
 		//when game starts, ghosts start moving
 		if (g == ghost1Sprite)
 		{
 			//how ghost 1 will move "Blue"
-			
-			travel(ghost1Sprite);
-			scatter();
 		}
 		else if (g == ghost2Sprite )
 		{
 			//how ghost 2 will move "Orange"
-			travel(ghost2Sprite);
 		}
 		else if (g == ghost3Sprite )
 		{
 			//how ghost 3 will move "Pink"
-			travel(ghost3Sprite);
 		}
 		else if (g == ghost4Sprite )
 		{
-			//how ghost 4 will move "Red"
-			travel(ghost4Sprite);
+			//how ghost 4 will move "Red"	
 		}	
 	}
 	
 	/**
 	 * ghosts scatter if a power pellet has been eaten
 	 */
-	public void scatter()
+	public void ghostScatter(Sprite g)
 	{
-		//if power pellet consumed change to blue image (edibleGhost) and scatter
-		ghost1Sprite.setImage(Resources.ghostS);
-		ghost2Sprite.setImage(Resources.ghostS);
-		ghost3Sprite.setImage(Resources.ghostS);
-		ghost4Sprite.setImage(Resources.ghostS);
+		//go to a corner of the map each color has different corner
+		
+		//if power pellet consumed change to blue image (edibleGhost) and move toward a corner
+		if (g == ghost1Sprite)
+		{
+			ghost1Sprite.setImage(Resources.ghostS);
+			//move towards top right corner
+		}
+		else if (g == ghost2Sprite )
+		{
+			ghost2Sprite.setImage(Resources.ghostS);
+			//move towards top left corner
+		}
+		else if (g == ghost3Sprite )
+		{
+			ghost3Sprite.setImage(Resources.ghostS);
+			//move towards bottom left corner	
+		}
+		else if (g == ghost4Sprite )
+		{
+			ghost4Sprite.setImage(Resources.ghostS);
+			//move towards bottom right corner
+		}	
+		
 	}
 	
-	/**
-	 * Turns ghosts blue if they are edible
-	 * @param g
-	 */
-	public void edibleGhost(Graphics2D g)
+	public void ghostFrightened(Sprite g)
 	{
-		setSize(40, 40);
+		//randomly decide which way to turn at each intersection
+		if (g == ghost1Sprite)
+		{
+			ghost1Sprite.setImage(Resources.ghostS);
+			//move towards top right corner
+		}
+		else if (g == ghost2Sprite )
+		{
+			ghost2Sprite.setImage(Resources.ghostS);
+			//move towards top left corner
+		}
+		else if (g == ghost3Sprite )
+		{
+			ghost3Sprite.setImage(Resources.ghostS);
+			//move towards bottom left corner	
+		}
+		else if (g == ghost4Sprite )
+		{
+			ghost4Sprite.setImage(Resources.ghostS);
+			//move towards bottom right corner
+		}	
 		
-		ghostScaredSprite = new Sprite(Resources.ghostS);
-		ghostScaredSprite.setSize(getWidth(), getHeight());
 	}
+	
+	
+	
 	
 	/**
 	 * draw the ghosts 
@@ -113,7 +141,6 @@ public class Ghost extends Actor
 	public void draw(Graphics2D g) 
 	{
 		//drawing ghosts
-		
 		ghost1Sprite.draw(g);
 		ghost2Sprite.draw(g);
 		ghost3Sprite.draw(g);
@@ -127,32 +154,23 @@ public class Ghost extends Actor
 	public void update(double delta) 
 	{
 		
+		//if no power pellets eaten chase pacman
+		chasePacman(ghost1Sprite);
+		//chasePacman(ghost2Sprite);
+		//chasePacman(ghost3Sprite);
+		//chasePacman(ghost4Sprite);
+		
+		//if pellet eaten scatter
+		//ghostScatter(ghost1Sprite);
+		//ghostScatter(ghost2Sprite);
+		//ghostScatter(ghost3Sprite);
+		//ghostScatter(ghost4Sprite);
+		
 		//will call once pacman starts moving
-		moveGhost(ghost1Sprite);
-		
-		//moveGhost(ghost2Sprite);
-		//moveGhost(ghost3Sprite);
-		//moveGhost(ghost4Sprite);
 		
 		
-		/*ActionListener listener = new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent event) 
-			{
-				moveGhost(ghost1Sprite);
-				//moveGhost(ghost2Sprite);
-				//moveGhost(ghost3Sprite);
-				//moveGhost(ghost4Sprite);
-				
-			}
-		};
 		
-		final int DELAY = 1000; 
-		// milliseconds between timer ticks
-		Timer timer = new Timer(DELAY, listener);
 		
-		timer.start();
-		*/
 		
 		
 	}

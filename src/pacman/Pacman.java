@@ -22,6 +22,7 @@ public class Pacman extends Actor{
 	public void draw(Graphics2D g) {
 		shipSprite.setPosition(getX(), getY());
 		shipSprite.draw(g);
+		
 	}
 
 	@Override
