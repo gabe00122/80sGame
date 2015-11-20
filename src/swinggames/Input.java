@@ -1,4 +1,4 @@
-package gabe00122.swinggames;
+package swinggames;
 
 import java.util.HashSet;
 import java.util.Set;

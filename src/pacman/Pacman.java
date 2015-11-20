@@ -1,10 +1,11 @@
 package pacman;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import gabe00122.swinggames.Input;
-import gabe00122.swinggames.Sprite;
 
-public class Pacman extends Actor{
+import swinggames.Input;
+import swinggames.Sprite;
+
+public class Pacman extends MovingActor{
 	private Sprite shipSprite;
 	private static final double SPEED = 150;
 	
@@ -13,6 +14,8 @@ public class Pacman extends Actor{
 		
 		setPosition(100, 100);
 		setSize(50, 50);
+		
+		setSpeed(SPEED);
 		
 		shipSprite = new Sprite(Resources.ship);
 		shipSprite.setSize(getWidth(), getHeight());
@@ -32,38 +35,29 @@ public class Pacman extends Actor{
 	
 	@Override
 	public void update(double delta) {
+		super.update(delta);
+		
 		Input input = getGame().getInput();
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){
 			shipSprite.setRotation(270);
 			
-			if(canMoveY(-SPEED * delta))
-			{
-				move(0, -SPEED * delta);
-			}
+			setDirection(UP);
 		}
 		if(input.isKeyDown(KeyEvent.VK_DOWN)){
 			shipSprite.setRotation(90);
-			if(canMoveY(SPEED * delta))
-			{
-				move(0, SPEED * delta);
-			}
+			
+			setDirection(DOWN);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_LEFT)){
 			shipSprite.setRotation(180);
 			
-			if(canMoveX(-SPEED * delta))
-			{
-				move(-SPEED * delta, 0);
-			}
+			setDirection(LEFT);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
 			shipSprite.setRotation(0);
 
-			if(canMoveX(SPEED * delta))
-			{
-				move(SPEED * delta, 0);
-			}
+			setDirection(RIGHT);
 		}
 		
 		for (Actor other: getGame().checkCollisons(getX(), getY(), getWidth(), getHeight())) {

@@ -1,4 +1,4 @@
-package gabe00122.swinggames;
+package swinggames;
 
 import java.awt.Graphics2D;
 import java.awt.Image;

@@ -4,9 +4,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import gabe00122.swinggames.Game;
-import gabe00122.swinggames.Input;
 import pacman.MazeTile.TileType;
+import swinggames.Game;
+import swinggames.Input;
 
 public class PacmanGame implements Game{
 	private Input input;

@@ -3,7 +3,7 @@ package asteroids;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import gabe00122.swinggames.Sprite;
+import swinggames.Sprite;
 
 public class Asteroid extends Actor{
 	private Sprite sprite;
