@@ -1,6 +1,5 @@
 package pacman;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +22,6 @@ public class PacmanGame implements Game{
 		
 		addPacmanAndGhosts();
 		addPacDots();
-		
-		
-		addActor(new Ghost());
 	}
 	
 	private void addPacDots(){
@@ -48,6 +44,8 @@ public class PacmanGame implements Game{
 	}
 	
 	private void addPacmanAndGhosts(){
+		int ghostCount = 0;
+		
 		for(int y = 0;y < maze.getMazeH(); y++){
 			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
@@ -55,6 +53,10 @@ public class PacmanGame implements Game{
 					Pacman pacman = new Pacman();
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
+				} else if(tileType == TileType.GHOST_SPAWN){
+					Ghost ghost = new Ghost(ghostCount++);
+					addActor(ghost);
+					ghost.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 				}
 			}
 		}

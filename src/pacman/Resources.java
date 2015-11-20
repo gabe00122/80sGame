@@ -9,13 +9,13 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 public class Resources {
-	public static Image ship;
+	public static Image pacman;
 	public static Image ghostB, ghostR, ghostP, ghostO, ghostS;
 	public static String[] map;
 
 	public static void load(){
 		try {
-			ship = ImageIO.read(new File("assets/pacman.png"));
+			pacman = ImageIO.read(new File("assets/pacman.png"));
 			ghostB = ImageIO.read(new File("assets/blueGhost.png"));
 			ghostO = ImageIO.read(new File("assets/orangeGhost.png"));
 			ghostR = ImageIO.read(new File("assets/redGhost.png"));
