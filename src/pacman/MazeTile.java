@@ -12,17 +12,26 @@ public class MazeTile {
 	}
 	
 	public MazeTile(char c){
-		if(c == '#'){
+		switch (c) {
+		case '#':
 			tileType = TileType.WALL;
-		} else if(c == '.'){
+			break;
+		case '.':
 			tileType = TileType.PAC_DOT;
-		} else if(c == 'D'){
+			break;
+		case 'D':
 			tileType = TileType.DOOR;
-		} else if(c == 'P'){
+			break;
+		case 'P':
 			tileType = TileType.PACMAN_SPAWN;
-		}
-		else {
+			break;
+		case 'G':
+			tileType = TileType.GHOST_SPAWN;
+			break;
+			
+		default:
 			tileType = TileType.SPACE;
+			break;
 		}
 	}
 	
@@ -53,7 +62,7 @@ public class MazeTile {
 	}
 	
 	public enum TileType{
-		NULL, SPACE, PAC_DOT, PACMAN_SPAWN, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
+		NULL, SPACE, PAC_DOT, PACMAN_SPAWN, GHOST_SPAWN, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
 		
 		private Color color;
 		private boolean playerCollide;

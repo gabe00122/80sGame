@@ -6,7 +6,7 @@ import swinggames.Input;
 import swinggames.Sprite;
 
 public class Pacman extends MovingActor{
-	private Sprite shipSprite;
+	private Sprite pacmanSprite;
 	private static final double SPEED = 150;
 	
 	public Pacman(){
@@ -17,14 +17,30 @@ public class Pacman extends MovingActor{
 		
 		setSpeed(SPEED);
 		
-		shipSprite = new Sprite(Resources.ship);
-		shipSprite.setSize(getWidth(), getHeight());
+		pacmanSprite = new Sprite(Resources.pacman);
+		pacmanSprite.setSize(getWidth(), getHeight());
 	}
 	
 	@Override
 	public void draw(Graphics2D g) {
-		shipSprite.setPosition(getX(), getY());
-		shipSprite.draw(g);
+		if(getDirection() == UP){
+			pacmanSprite.setRotation(270);
+		}
+		
+		if(getDirection() == DOWN){
+			pacmanSprite.setRotation(90);
+		}
+		
+		if(getDirection() == LEFT){
+			pacmanSprite.setRotation(180);
+		}
+		
+		if(getDirection() == RIGHT){
+			pacmanSprite.setRotation(0);
+		}
+		
+		pacmanSprite.setPosition(getX(), getY());
+		pacmanSprite.draw(g);
 		
 	}
 
@@ -40,23 +56,15 @@ public class Pacman extends MovingActor{
 		Input input = getGame().getInput();
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){
-			shipSprite.setRotation(270);
-			
 			setDirection(UP);
 		}
 		if(input.isKeyDown(KeyEvent.VK_DOWN)){
-			shipSprite.setRotation(90);
-			
 			setDirection(DOWN);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_LEFT)){
-			shipSprite.setRotation(180);
-			
 			setDirection(LEFT);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
-			shipSprite.setRotation(0);
-
 			setDirection(RIGHT);
 		}
 		
