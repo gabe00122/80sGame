@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 
 
-//import Screen.TimerListener;
+
 import swinggames.Sprite;
 
 public class Ghost extends MovingActor 
@@ -156,7 +156,7 @@ public class Ghost extends MovingActor
 		//set position outside home
 		//ghost1Sprite.setPosition(275, 150);
 		ghost1Sprite.setPosition(600, 100);
-		move(0, 150);
+		//move(0, 150);
 		
 		
 		
