@@ -65,14 +65,15 @@ public class Ghost extends MovingActor
 			
 			setDirection(LEFT);
 			//System.out.println(dir);
-			if (collidesWithTile(getGame().getMaze().getTileAt(getX(), getY())) == true)		
+			double x = getX();
+			double y = getY();
+			//System.out.println("x: "+ x + " y: "+y);
+			while (collidesWithTile(getGame().getMaze().getTileAt(x, y)) == true)		
 			{
 				setDirection(dir);
 				System.out.println(dir);
+				break;
 			}
-			
-			
-			
 		}
 		else if (idNumber == ORANGE_ID)
 		{
@@ -84,7 +85,8 @@ public class Ghost extends MovingActor
 		{
 			//how ghost 3 will move "Pink"
 			//setDirection(dir);
-			//setDirection(LEFT);
+			setDirection(UP);
+			
 			
 		}
 		else if (idNumber == RED_ID)
@@ -187,6 +189,7 @@ public class Ghost extends MovingActor
 	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
+		//System.out.println(t.ghostCollide());
 		return t.ghostCollide();
 	}
 
