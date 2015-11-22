@@ -72,7 +72,7 @@ public class Ghost extends MovingActor
 			{
 				setDirection(dir);
 				System.out.println(dir);
-				break;
+				
 			}
 		}
 		else if (idNumber == ORANGE_ID)
