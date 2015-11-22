@@ -1,6 +1,6 @@
 package pacman;
 import java.awt.Graphics2D;
-
+import java.util.Random;
 
 import swinggames.Sprite;
 
@@ -9,6 +9,7 @@ public class Ghost extends MovingActor
 	private Sprite ghostSprite, ghostScaredSprite;
 	private static final int BLUE_ID = 0, RED_ID = 1, PINK_ID = 2, ORANGE_ID = 3;
 	private int idNumber;
+	private Random rand = new Random();
 	
 	
 	public Ghost(int number)
@@ -21,25 +22,26 @@ public class Ghost extends MovingActor
 		idNumber = number;
 		
 		//creating ghosts (blue, red, pink, orange)
-		if(number == BLUE_ID){
+		if(number == BLUE_ID)
+		{
 			ghostSprite = new Sprite(Resources.ghostB);
 		}
 		
-		if(number == RED_ID){
+		if(number == RED_ID)
+		{
 			ghostSprite = new Sprite(Resources.ghostR);
 		}
 		
-		if(number == PINK_ID){
+		if(number == PINK_ID)
+		{
 			ghostSprite = new Sprite(Resources.ghostP);
 		}
 		
-		if(number == ORANGE_ID){
+		if(number == ORANGE_ID)
+		{
 			ghostSprite = new Sprite(Resources.ghostO);
 		}
 		ghostSprite.setSize(getWidth(), getHeight());
-		
-		
-		leaveHome();
 		
 		//create a scared ghost for later
 		//ghostScaredSprite = new Sprite(Resources.ghostS);
@@ -54,28 +56,41 @@ public class Ghost extends MovingActor
 	public void chasePacman()
 	{
 		//use pacmans location to move towards a certain tile
-		
+		int dir = rand.nextInt(4);
 		//when game starts, ghosts start moving
 
 		if (idNumber == BLUE_ID)
 		{
 			//how ghost 1 will move "Blue"
 			
+			setDirection(LEFT);
+			//System.out.println(dir);
+			if (collidesWithTile(getGame().getMaze().getTileAt(getX(), getY())) == true)		
+			{
+				setDirection(dir);
+				System.out.println(dir);
+			}
+			
+			
 			
 		}
 		else if (idNumber == ORANGE_ID)
 		{
 			//how ghost 2 will move "Orange"
+			//setDirection(dir);
 			
 		}
 		else if (idNumber == PINK_ID)
 		{
 			//how ghost 3 will move "Pink"
+			//setDirection(dir);
+			//setDirection(LEFT);
 			
 		}
 		else if (idNumber == RED_ID)
 		{
 			//how ghost 4 will move "Red"
+			//setDirection(dir);
 			
 		}	
 	}
@@ -148,12 +163,8 @@ public class Ghost extends MovingActor
 	public void leaveHome()
 	{
 		//set position outside home
-		//ghostSprite.setPosition(275, 150);
-		//chasePacman();
-		//setDirection(UP);
-		//setDirection(LEFT);
-		//setDirection(DOWN);
-		//setSpeed(150.0);
+		ghostSprite.setPosition(275, 150);
+		
 		
 	}
 	
@@ -163,20 +174,19 @@ public class Ghost extends MovingActor
 		ghostSprite.draw(g);
 		//ghostScaredSprite.draw(g);
 	}
-	
-	
+
 	
 	@Override
 	public void update(double delta) 
 	{
 		super.update(delta);
 		//use this method for everything, It's very important!
-		
-	
+		chasePacman();
 	}
 	
 	@Override
-	public boolean collidesWithTile(MazeTile t) {
+	public boolean collidesWithTile(MazeTile t) 
+	{
 		return t.ghostCollide();
 	}
 
