@@ -21,7 +21,7 @@ public class PacmanGame implements Game{
 		
 		actors = new ArrayList<>();
 		dotCount = 0;
-		
+		gameScore = 0;	//
 		addPacmanAndGhosts();
 		addPacDots();
 	}
@@ -48,6 +48,7 @@ public class PacmanGame implements Game{
 		if(dotCount == 0)
 		{
 			addPacDots();
+			System.out.println("Your Score is: "+ gameScore);
 		}
 	}
 	
