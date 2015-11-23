@@ -59,7 +59,7 @@ public class Ghost extends MovingActor
 	public void chasePacman()
 	{
 		//use pacmans location to move towards a certain tile
-		dir = rand.nextInt(4);
+		//dir = rand.nextInt(4);
 		
 		
 		//when game starts, ghosts start moving
@@ -67,24 +67,24 @@ public class Ghost extends MovingActor
 		if (idNumber == BLUE_ID)
 		{
 			//how ghost 1 will move "Blue"
-			setDirection(dir);
+			dir = rand.nextInt(4);
 			
 		}
 		else if (idNumber == ORANGE_ID)
 		{
 			//how ghost 2 will move "Orange"
-			setDirection(dir);
+			dir = rand.nextInt(4);
 			
 		}
 		else if (idNumber == PINK_ID)
 		{
 			//how ghost 3 will move "Pink"
-			setDirection(dir);
+			dir = rand.nextInt(4);
 		}
 		else if (idNumber == RED_ID)
 		{
 			//how ghost 4 will move "Red"
-			setDirection(dir);
+			dir = rand.nextInt(4);
 		}	
 	}
 	
@@ -173,10 +173,10 @@ public class Ghost extends MovingActor
 	public void update(double delta) 
 	{
 		super.update(delta);
-		//chasePacman();
-		dir = rand.nextInt(4);
-		setDirection(LEFT);
-		targetX--;
+		chasePacman();
+		
+		//setDirection(dir);
+		targetX-=5;
 		targetY--;
 		
 		if (targetX < 5)
