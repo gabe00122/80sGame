@@ -25,9 +25,9 @@ public class Resources {
 			ghostR = ImageIO.read(new File("assets/redGhost.png"));
 			ghostP = ImageIO.read(new File("assets/pinkGhost.png"));
 			
-			cherry = ImageIO.read(new File("assets/cherry.png"));
-			orange = ImageIO.read(new File("assets/orange.png"));
-			strawberry = ImageIO.read(new File("assets/strawberry.png"));
+			cherry 		= ImageIO.read(new File("assets/cherry.png"));
+			orange 		= ImageIO.read(new File("assets/orange.png"));
+			strawberry 	= ImageIO.read(new File("assets/strawberry.png"));
 			
 			ghostS = ImageIO.read(new File("assets/scaredGhost.png"));
 			

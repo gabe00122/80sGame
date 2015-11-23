@@ -20,7 +20,7 @@ public class PacmanGame implements Game{
 	public PacmanGame() {
 		maze = new Maze();
 		maze.loadTextMap(Resources.map);
-		
+		Resources.openingSong.play();		//play introduction song
 		actors = new ArrayList<>();
 		dotCount = 0;
 		gameScore = 0;	//
@@ -45,6 +45,7 @@ public class PacmanGame implements Game{
 	}
 	
 	public void removePacDot(){
+		Resources.wakaWaka.play();		//play when eating dots
 		dotCount--;
 		gameScore += 10;		//update score each time pellet consumed
 		if(dotCount == 0)
