@@ -45,7 +45,6 @@ public class PacmanGame implements Game{
 	public void removePacDot(){
 		dotCount--;
 		gameScore += 10;		//update score each time pellet consumed
-		System.out.println("Score: "+ gameScore);
 		if(dotCount == 0)
 		{
 			addPacDots();

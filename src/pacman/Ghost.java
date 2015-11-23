@@ -101,23 +101,19 @@ public class Ghost extends MovingActor
 		
 		//if power pellet consumed change to blue image (edibleGhost) and move toward a corner
 		if (idNumber == BLUE_ID)
-		{
-			
+		{	
 			//move towards top right corner
 		}
 		else if (idNumber == RED_ID)
-		{
-			
+		{	
 			//move towards top left corner
 		}
 		else if (idNumber == ORANGE_ID)
-		{
-			
+		{	
 			//move towards bottom left corner	
 		}
 		else if (idNumber == PINK_ID)
 		{
-			
 			//move towards bottom right corner
 		}	
 		
@@ -157,7 +153,7 @@ public class Ghost extends MovingActor
 	 */
 	public void draw(Graphics2D g) 
 	{
-		ghostSprite.setPosition(getX(), getY());	//275, 150
+		ghostSprite.setPosition(getX(), getY());	
 		ghostSprite.draw(g);
 		//ghostScaredSprite.draw(g);
 	}
