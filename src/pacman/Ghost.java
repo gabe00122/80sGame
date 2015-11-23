@@ -26,7 +26,8 @@ public class Ghost extends MovingActor
 		targetY = 0;
 		
 		idNumber = number;
-		
+		targetX = getX()-10;
+		targetY = getY()+10;
 		//creating ghosts (blue, red, pink, orange)
 		if(number == BLUE_ID)
 		{
@@ -62,7 +63,33 @@ public class Ghost extends MovingActor
 	public void chasePacman()
 	{
 		//use pacmans location to move towards a certain tile
+
+		//dir = rand.nextInt(4);
+		
+		
+		//when game starts, ghosts start moving
+		
+		if (idNumber == BLUE_ID)
+		{
+			//how ghost 1 will move "Blue"
+			//dir = rand.nextInt(4);
+		}
+		else if (idNumber == ORANGE_ID)
+		{
+			//how ghost 2 will move "Orange"
+			//dir = rand.nextInt(4);
 			
+		}
+		else if (idNumber == PINK_ID)
+		{
+			//how ghost 3 will move "Pink"
+			//dir = rand.nextInt(4);
+		}
+		else if (idNumber == RED_ID)
+		{
+			//how ghost 4 will move "Red"
+			//dir = rand.nextInt(4);
+		}	
 	}
 	
 	
@@ -152,12 +179,27 @@ public class Ghost extends MovingActor
 		super.update(delta);
 		chasePacman();
 		
+		//setDirection(dir);
+		targetX-=5;
+		targetY--;
+		
+		if (targetX < 5)
+		{
+			targetX = getX()-15;
+			setDirection(dir);
+			
+		}
+		//setDirection(DOWN);
+		/*if (targetY < 1)
+		{
+			targetY = getY()+15;
+			setDirection(UP);
+			
+		}*/	
 		
 	}
 	
-	@Override
-	public void onNewDirection(){
-		super.onNewDirection();
+	private void randomMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
 		if(directions.size() == 1){ //only one option
@@ -183,9 +225,16 @@ public class Ghost extends MovingActor
 	}
 	
 	@Override
+	public void onNewDirection(){
+		super.onNewDirection();
+		//only get's called when there is a new direction to move in
+		
+		randomMovement();
+	}
+	
+	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
-		
 		return t.ghostCollide();
 	}
 
