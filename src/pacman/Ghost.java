@@ -14,7 +14,6 @@ public class Ghost extends MovingActor
 	private int idNumber;
 	private Random rand = new Random();
 	private double targetX, targetY;
-	private int dir;
 	
 	/**
 	 * 
@@ -148,6 +147,7 @@ public class Ghost extends MovingActor
 		//ghostScaredSprite = new Sprite(Resources.ghostS);
 		//ghostScaredSprite.setSize(getWidth(), getHeight());
 	}
+	
 	/**
 	 * 
 	 */
