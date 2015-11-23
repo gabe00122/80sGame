@@ -22,7 +22,8 @@ public class Ghost extends MovingActor
 		setSpeed(100);
 		
 		idNumber = number;
-		
+		targetX = getX()-10;
+		targetY = getY()+10;
 		//creating ghosts (blue, red, pink, orange)
 		if(number == BLUE_ID)
 		{
@@ -59,27 +60,31 @@ public class Ghost extends MovingActor
 	{
 		//use pacmans location to move towards a certain tile
 		dir = rand.nextInt(4);
+		
+		
 		//when game starts, ghosts start moving
 		
 		if (idNumber == BLUE_ID)
 		{
 			//how ghost 1 will move "Blue"
+			setDirection(dir);
 			
 		}
 		else if (idNumber == ORANGE_ID)
 		{
 			//how ghost 2 will move "Orange"
+			setDirection(dir);
 			
 		}
 		else if (idNumber == PINK_ID)
 		{
 			//how ghost 3 will move "Pink"
-			
+			setDirection(dir);
 		}
 		else if (idNumber == RED_ID)
 		{
 			//how ghost 4 will move "Red"
-			
+			setDirection(dir);
 		}	
 	}
 	
@@ -168,15 +173,32 @@ public class Ghost extends MovingActor
 	public void update(double delta) 
 	{
 		super.update(delta);
-		chasePacman();
-		setDirection(RIGHT);
+		//chasePacman();
+		dir = rand.nextInt(4);
+		setDirection(LEFT);
+		targetX--;
+		targetY--;
+		
+		if (targetX < 5)
+		{
+			targetX = getX()-15;
+			setDirection(dir);
+			
+		}
+		//setDirection(DOWN);
+		/*if (targetY < 1)
+		{
+			targetY = getY()+15;
+			setDirection(UP);
+			
+		}*/
+		
 		
 	}
 	
 	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
-		
 		return t.ghostCollide();
 	}
 
