@@ -75,8 +75,7 @@ public class Pacman extends MovingActor{
 	
 	private void collison(Actor other){
 		if(other instanceof PacDot){
-			getGame().removeActor(other);
-			getGame().removePacDot();
+			((PacDot)other).eat();
 		}
 	}
 	

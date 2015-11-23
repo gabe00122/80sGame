@@ -19,5 +19,9 @@ public class PacDot extends Actor {
 	public void update(double delta) {
 		
 	}
-
+	
+	public void eat(){
+		getGame().removeActor(this);
+		getGame().removePacDot();
+	}
 }

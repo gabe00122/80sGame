@@ -1,5 +1,8 @@
 package pacman;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class MovingActor extends Actor {
 	public static final int NONE = -1, UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	private static final double COLLISION_PADDING = 1.5;
@@ -7,6 +10,8 @@ public abstract class MovingActor extends Actor {
 	private double speed;
 	private int direction;
 	private int preferredDirection;
+	
+	private boolean canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
 	
 	public MovingActor() {
 		direction = NONE;
@@ -27,31 +32,26 @@ public abstract class MovingActor extends Actor {
 	
 	@Override
 	public void update(double delta) {
-		switch (preferredDirection) {
-		case UP:
-			if(canMoveY(-speed * delta))
-			{
+		boolean canMoveUp = canMoveY(-speed * delta);
+		boolean canMoveDown = canMoveY(speed * delta);
+		boolean canMoveLeft = canMoveX(-speed * delta);
+		boolean canMoveRight = canMoveX(speed * delta);
+		
+		if(preferredDirection == UP && canMoveUp)
+		{
 				direction = preferredDirection;
-			}
-			break;
-		case DOWN:
-			if(canMoveY(speed * delta))
-			{
+		}
+		else if(preferredDirection == DOWN && canMoveDown)
+		{
 				direction = preferredDirection;
-			}
-			break;
-		case LEFT:
-			if(canMoveX(-speed * delta))
-			{
+		}
+		else if(preferredDirection == LEFT && canMoveLeft)
+		{
+			direction = preferredDirection;
+		}
+		else if(preferredDirection == RIGHT && canMoveRight)
+		{
 				direction = preferredDirection;
-			}
-			break;
-		case RIGHT:
-			if(canMoveX(speed * delta))
-			{
-				direction = preferredDirection;
-			}
-			break;
 		}
 		
 		switch (direction) {
@@ -68,21 +68,32 @@ public abstract class MovingActor extends Actor {
 			move(speed * delta, 0);
 			break;
 		}
+		
+		if(this.canMoveUp != canMoveUp || 
+				this.canMoveDown != canMoveDown ||
+				this.canMoveLeft != canMoveLeft ||
+				this.canMoveRight != canMoveRight){
+			this.canMoveUp = canMoveUp;
+			this.canMoveDown = canMoveDown;
+			this.canMoveLeft = canMoveLeft;
+			this.canMoveRight = canMoveRight;
+			onNewDirection();
+		}
 	}
 	
 	public void move(double changeX, double changeY){
 		while(!canMoveX(changeX)){
 			changeX /= 2;
-			if(changeX <= COLLISION_PADDING){
-				direction = NONE;
+			if(Math.abs(changeX) <= COLLISION_PADDING/2){
+				changeX = 0;
 				break;
 			}
 		}
 		
 		while(!canMoveY(changeY)){
 			changeY /= 2;
-			if(changeY <= COLLISION_PADDING){
-				direction = NONE;
+			if(Math.abs(changeY) <= COLLISION_PADDING/2){
+				changeY = 0;
 				break;
 			}
 		}
@@ -120,6 +131,44 @@ public abstract class MovingActor extends Actor {
 		}
 		
 		return true;
+	}
+	
+	public boolean canMoveDirection(int dir){
+		switch (dir) {
+		case UP:
+			return canMoveUp;
+		case DOWN:
+			return canMoveDown;
+		case LEFT:
+			return canMoveLeft;
+		case RIGHT:
+			return canMoveRight;
+		default:
+			return false;
+		}
+	}
+	
+	public void onNewDirection(){
+		
+	}
+	
+	public List<Integer> getDirectionChoses(){
+		List<Integer> out = new ArrayList<>();
+		
+		if(canMoveDirection(UP)){
+			out.add(UP);
+		}
+		if(canMoveDirection(DOWN)){
+			out.add(DOWN);
+		}
+		if(canMoveDirection(LEFT)){
+			out.add(LEFT);
+		}
+		if(canMoveDirection(RIGHT)){
+			out.add(RIGHT);
+		}
+		
+		return out;
 	}
 	
 	private boolean collidesWithTile(double x, double y){

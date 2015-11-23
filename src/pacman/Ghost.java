@@ -1,5 +1,6 @@
 package pacman;
 import java.awt.Graphics2D;
+import java.util.List;
 import java.util.Random;
 
 import swinggames.Sprite;
@@ -20,6 +21,9 @@ public class Ghost extends MovingActor
 		//setPosition(200, 225);
 		setSize(50, 50);
 		setSpeed(100);
+		
+		targetX = 0;
+		targetY = 0;
 		
 		idNumber = number;
 		
@@ -58,29 +62,7 @@ public class Ghost extends MovingActor
 	public void chasePacman()
 	{
 		//use pacmans location to move towards a certain tile
-		dir = rand.nextInt(4);
-		//when game starts, ghosts start moving
-		
-		if (idNumber == BLUE_ID)
-		{
-			//how ghost 1 will move "Blue"
 			
-		}
-		else if (idNumber == ORANGE_ID)
-		{
-			//how ghost 2 will move "Orange"
-			
-		}
-		else if (idNumber == PINK_ID)
-		{
-			//how ghost 3 will move "Pink"
-			
-		}
-		else if (idNumber == RED_ID)
-		{
-			//how ghost 4 will move "Red"
-			
-		}	
 	}
 	
 	
@@ -169,8 +151,35 @@ public class Ghost extends MovingActor
 	{
 		super.update(delta);
 		chasePacman();
-		setDirection(RIGHT);
 		
+		
+	}
+	
+	@Override
+	public void onNewDirection(){
+		super.onNewDirection();
+		List<Integer> directions = getDirectionChoses();
+		
+		if(directions.size() == 1){ //only one option
+			setDirection(directions.get(0));
+		}
+		else {
+			//can't go back the way we came
+			if(getDirection() == UP){
+				directions.remove((Object)DOWN);
+			} else if(getDirection() == DOWN){
+				directions.remove((Object)UP);
+			} else if(getDirection() == LEFT){
+				directions.remove((Object)RIGHT);
+			} else if(getDirection() == RIGHT){
+				directions.remove((Object)LEFT);
+			}
+			
+			//random movement
+			if(directions.size() > 0){
+				setDirection(directions.get(rand.nextInt(directions.size())));
+			}
+		}
 	}
 	
 	@Override

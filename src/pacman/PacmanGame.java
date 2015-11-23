@@ -12,6 +12,7 @@ public class PacmanGame implements Game{
 	private List<Actor> actors;
 	private Maze maze;
 	private int dotCount;
+	private Pacman pacman;
 	
 	public PacmanGame() {
 		maze = new Maze();
@@ -22,6 +23,10 @@ public class PacmanGame implements Game{
 		
 		addPacmanAndGhosts();
 		addPacDots();
+	}
+	
+	public Pacman getPacman(){
+		return pacman;
 	}
 	
 	private void addPacDots(){
@@ -50,7 +55,7 @@ public class PacmanGame implements Game{
 			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
 				if(tileType == TileType.PACMAN_SPAWN){
-					Pacman pacman = new Pacman();
+					pacman = new Pacman();
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 				} else if(tileType == TileType.GHOST_SPAWN){

@@ -19,6 +19,9 @@ public class MazeTile {
 		case '.':
 			tileType = TileType.PAC_DOT;
 			break;
+		case '*':
+			tileType = TileType.SUPER_DOT;
+			break;
 		case 'D':
 			tileType = TileType.DOOR;
 			break;
@@ -62,7 +65,7 @@ public class MazeTile {
 	}
 	
 	public enum TileType{
-		NULL, SPACE, PAC_DOT, PACMAN_SPAWN, GHOST_SPAWN, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
+		NULL, SPACE, PAC_DOT, SUPER_DOT, PACMAN_SPAWN, GHOST_SPAWN, WALL(Color.BLUE, true, true), DOOR(Color.GREEN, true, false);
 		
 		private Color color;
 		private boolean playerCollide;
