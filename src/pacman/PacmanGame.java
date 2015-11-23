@@ -13,6 +13,7 @@ public class PacmanGame implements Game{
 	private Maze maze;
 	private int dotCount;
 	private Pacman pacman;
+	private int gameScore;
 	
 	public PacmanGame() {
 		maze = new Maze();
@@ -43,7 +44,10 @@ public class PacmanGame implements Game{
 	
 	public void removePacDot(){
 		dotCount--;
-		if(dotCount == 0){
+		gameScore += 10;		//update score each time pellet consumed
+		System.out.println("Score: "+ gameScore);
+		if(dotCount == 0)
+		{
 			addPacDots();
 		}
 	}

@@ -1,8 +1,5 @@
 package pacman;
-
-
 import javax.swing.JFrame;
-
 import swinggames.GameDisplay;
 
 public class Main {
@@ -10,6 +7,7 @@ public class Main {
 		Resources.load();
 		
 		JFrame frame = new JFrame();
+		
 		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("pacman");
