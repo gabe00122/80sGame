@@ -1,8 +1,11 @@
 package pacman;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,6 +14,7 @@ import javax.imageio.ImageIO;
 public class Resources {
 	public static Image pacman;
 	public static Image ghostB, ghostR, ghostP, ghostO, ghostS;
+	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka;
 	public static String[] map;
 
 	public static void load(){
@@ -24,6 +28,12 @@ public class Resources {
 			ghostS = ImageIO.read(new File("assets/scaredGhost.png"));
 			
 			map = loadTextMap(new File("assets/map.txt"));
+			
+			pacmanDies = Applet.newAudioClip(new URL("file:assets/pacman_dies.wav"));
+			eatingGhost = Applet.newAudioClip(new URL("file:assets/eating_ghost.wav"));
+			openingSong = Applet.newAudioClip(new URL("file:assets/intro_music.wav"));
+			eatingFruit = Applet.newAudioClip(new URL("file:assets/eating_fruit.wav"));
+			wakaWaka = Applet.newAudioClip(new URL("file:assets/waka_waka.wav"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
