@@ -81,7 +81,7 @@ public class PacmanGame implements Game{
 	@Override
 	public void draw(Graphics2D g) {
 		maze.draw(g);
-		for(int i = 0;i < actors.size();i++){
+		for(int i = actors.size() - 1; i >= 0; i--){
 			actors.get(i).draw(g);
 		}
 	}

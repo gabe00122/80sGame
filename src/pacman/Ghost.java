@@ -177,18 +177,18 @@ public class Ghost extends MovingActor
 	public void update(double delta) 
 	{
 		super.update(delta);
-		chasePacman();
+		//chasePacman();
 		
 		//setDirection(dir);
-		targetX-=5;
-		targetY--;
+		//targetX-=5;
+		//targetY--;
 		
-		if (targetX < 5)
-		{
-			targetX = getX()-15;
-			setDirection(dir);
+		//if (targetX < 5)
+		//{
+			//targetX = getX()-15;
+			//setDirection(dir);
 			
-		}
+		//}
 		//setDirection(DOWN);
 		/*if (targetY < 1)
 		{
