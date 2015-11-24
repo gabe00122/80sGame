@@ -5,7 +5,6 @@ import java.util.List;
 
 public abstract class MovingActor extends Actor {
 	public static final int NONE = -1, UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
-	private static final double COLLISION_PADDING = 1.5;
 	
 	private double speed;
 	private int direction;
@@ -22,8 +21,12 @@ public abstract class MovingActor extends Actor {
 		this.speed = speed;
 	}
 	
-	public void setDirection(int d){
+	public void setTargetDirection(int d){
 		preferredDirection = d;
+	}
+	
+	public void setDirection(int d){
+		direction = NONE;
 	}
 	
 	public int getDirection(){
@@ -39,11 +42,11 @@ public abstract class MovingActor extends Actor {
 		
 		if(preferredDirection == UP && canMoveUp)
 		{
-				direction = preferredDirection;
+			direction = preferredDirection;
 		}
 		else if(preferredDirection == DOWN && canMoveDown)
 		{
-				direction = preferredDirection;
+			direction = preferredDirection;
 		}
 		else if(preferredDirection == LEFT && canMoveLeft)
 		{
@@ -51,7 +54,7 @@ public abstract class MovingActor extends Actor {
 		}
 		else if(preferredDirection == RIGHT && canMoveRight)
 		{
-				direction = preferredDirection;
+			direction = preferredDirection;
 		}
 		
 		switch (direction) {
@@ -82,36 +85,29 @@ public abstract class MovingActor extends Actor {
 	}
 	
 	public void move(double changeX, double changeY){
-		while(!canMoveX(changeX)){
-			changeX /= 2;
-			if(Math.abs(changeX) <= COLLISION_PADDING/4){
-				changeX = 0;
-				break;
-			}
+		if(!canMoveX(changeX)){
+			changeX = 0;
 		}
 		
 		while(!canMoveY(changeY)){
-			changeY /= 2;
-			if(Math.abs(changeY) <= COLLISION_PADDING/4){
-				changeY = 0;
-				break;
-			}
+			changeY = 0;
 		}
-		
 		super.move(changeX, changeY);
 	}
 	
 	public boolean canMoveX(double changeX){
 		double newX = changeX + getX();
 		
+		double pad = Math.abs(changeX);
+		
 		if(changeX > 0){
 			return !collidesWithTile(newX+getWidth()/2, getY()) &&
-				   !collidesWithTile(newX+getWidth()/2, getY() + getHeight()/2 -COLLISION_PADDING) &&
-				   !collidesWithTile(newX+getWidth()/2, getY() - getHeight()/2 +COLLISION_PADDING);
+				   !collidesWithTile(newX+getWidth()/2, getY() + getHeight()/2 -pad) &&
+				   !collidesWithTile(newX+getWidth()/2, getY() - getHeight()/2 +pad);
 		} else if(changeX < 0){
 			return !collidesWithTile(newX-getWidth()/2, getY()) &&
-				   !collidesWithTile(newX-getWidth()/2, getY() + getHeight()/2 -COLLISION_PADDING) &&
-				   !collidesWithTile(newX-getWidth()/2, getY() - getHeight()/2 +COLLISION_PADDING);
+				   !collidesWithTile(newX-getWidth()/2, getY() + getHeight()/2 -pad) &&
+				   !collidesWithTile(newX-getWidth()/2, getY() - getHeight()/2 +pad);
 		}
 		
 		return true;
@@ -120,14 +116,16 @@ public abstract class MovingActor extends Actor {
 	public boolean canMoveY(double changeY){
 		double newY = changeY + getY();
 		
+		double pad = Math.abs(changeY);
+		
 		if(changeY > 0){
 			return !collidesWithTile(getX(), newY + getHeight()/2) &&
-				   !collidesWithTile(getX()+getWidth()/2 -COLLISION_PADDING, newY + getHeight()/2) &&
-				   !collidesWithTile(getX()-getWidth()/2 +COLLISION_PADDING, newY + getHeight()/2);
+				   !collidesWithTile(getX()+getWidth()/2 -pad, newY + getHeight()/2) &&
+				   !collidesWithTile(getX()-getWidth()/2 +pad, newY + getHeight()/2);
 		} else if(changeY < 0){
 			return !collidesWithTile(getX(), newY - getHeight()/2) &&
-				   !collidesWithTile(getX()+getWidth()/2 -COLLISION_PADDING, newY - getHeight()/2) &&
-				   !collidesWithTile(getX()-getWidth()/2 +COLLISION_PADDING, newY - getHeight()/2);
+				   !collidesWithTile(getX()+getWidth()/2 -pad, newY - getHeight()/2) &&
+				   !collidesWithTile(getX()-getWidth()/2 +pad, newY - getHeight()/2);
 		}
 		
 		return true;

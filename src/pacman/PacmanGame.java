@@ -1,5 +1,6 @@
 package pacman;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import pacman.MazeTile.TileType;
@@ -68,9 +69,9 @@ public class PacmanGame implements Game{
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 				} else if(tileType == TileType.GHOST_SPAWN){
-					Ghost ghost = new Ghost(ghostCount++);
-					addActor(ghost);
+					Ghost ghost = new Ghost(ghostCount++ % 4);
 					ghost.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
+					addActor(ghost);
 				}
 			}
 		}

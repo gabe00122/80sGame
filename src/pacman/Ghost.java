@@ -1,7 +1,7 @@
 package pacman;
 import java.awt.Graphics2D;
-import java.util.Comparator;
 import java.util.List;
+
 import swinggames.Sprite;
 
 /**
@@ -14,11 +14,15 @@ public class Ghost extends MovingActor
 	private static final int SEEK_TIME = 5;
 	private static final int SCATTER_TIME = 5;
 	private static final int SCARE_TIME = 10;
+	private static final int LEAVE_HOME_TIME = 5;	
 	private int idNumber;
 	private double targetX, targetY;
 	private double cornerTargetX, cornerTargetY;
+	private double homeX, homeY;
 	private double seekTime;
 	private double scaredTime;
+	private double leaveHomeTime;
+	private boolean eyeball;
 	/**
 	 * 
 	 */
@@ -30,6 +34,8 @@ public class Ghost extends MovingActor
 		
 		seekTime = 0;
 		scaredTime = 0;
+		leaveHomeTime = LEAVE_HOME_TIME;
+		eyeball = false;
 		
 		idNumber = number;
 		//creating ghosts (blue, red, pink, orange)
@@ -62,6 +68,9 @@ public class Ghost extends MovingActor
 	
 	@Override
 	public void init() {
+		homeX = getX();
+		homeY = getY();
+		
 		if(idNumber == BLUE_ID)
 		{
 			cornerTargetX = Maze.TILE_WEIGHT;
@@ -90,8 +99,14 @@ public class Ghost extends MovingActor
 	
 	public void draw(Graphics2D g) 
 	{
-		if(scaredTime <= 0){
+		if(eyeball){
+			ghostSprite.setRotation(90);
 			ghostSprite.setPosition(getX(), getY());	//275, 150
+			ghostSprite.draw(g);
+		}
+		else if(scaredTime <= 0){
+			ghostSprite.setPosition(getX(), getY());	//275, 150
+			ghostSprite.setRotation(0);
 			ghostSprite.draw(g);
 		} else {
 			if(scaredTime > 3 || (int)(scaredTime/0.5) % 2 == 0){
@@ -116,19 +131,15 @@ public class Ghost extends MovingActor
 			seekTime = SEEK_TIME;
 		}
 		
-		if(scaredTime > 0){
-			setSpeed(150);
-			scaredTime -= delta;
-		} else{
-			setSpeed(100);
-		}
+		leaveHomeTime -= delta;
+		scaredTime -= delta;
 	}
 	
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
 		if(directions.size() == 1){ //only one option
-			setDirection(directions.get(0));
+			setTargetDirection(directions.get(0));
 		}
 		else {
 			//can't go back the way we came
@@ -142,10 +153,21 @@ public class Ghost extends MovingActor
 				directions.remove((Object)LEFT);
 			}
 			
-			//random movement
+			double diffX = targetX - getX();
+			double diffY = targetY - getY();
 			
-			directions.sort(new DirectionSorter());
-			setDirection(directions.get(0));
+			double maxScore = getDirectionScore(directions.get(0), diffX, diffY);
+			int maxDir = directions.get(0);
+			
+			for(int i: directions){
+				double newScore = getDirectionScore(i, diffX, diffY);
+				if(newScore > maxScore){
+					maxScore = newScore;
+					maxDir = i;
+				}
+			}
+			
+			setTargetDirection(maxDir);
 		}
 	}
 	
@@ -153,7 +175,7 @@ public class Ghost extends MovingActor
 		List<Integer> directions = getDirectionChoses();
 		
 		if(directions.size() == 1){ //only one option
-			setDirection(directions.get(0));
+			setTargetDirection(directions.get(0));
 		}
 		else {
 			//can't go back the way we came
@@ -167,33 +189,111 @@ public class Ghost extends MovingActor
 				directions.remove((Object)LEFT);
 			}
 			
-			//random movement
+			double diffX = targetX - getX();
+			double diffY = targetY - getY();
 			
-			directions.sort(new DirectionSorter());
-			setDirection(directions.get(directions.size()-1));
+			double minScore = getDirectionScore(directions.get(0), diffX, diffY);
+			int minDir = directions.get(0);
+			
+			for(int i: directions){
+				double newScore = getDirectionScore(i, diffX, diffY);
+				if(newScore < minScore){
+					minScore = newScore;
+					minDir = i;
+				}
+			}
+			
+			setTargetDirection(minDir);
 		}
+	}
+	
+	private double getDirectionScore(int dir, double diffX, double diffY){
+		double score;
+		if(dir == LEFT){
+			score = -diffX;
+		}
+		else if(dir == RIGHT){
+			score = diffX;
+		}
+		else if(dir == UP){
+			score = -diffY;
+		}
+		else{
+			score = diffY; 
+		}
+		
+		return score;
 	}
 	
 	public void scare(){
 		scaredTime = SCARE_TIME;
 	}
 	
+	public void eat(){
+		if(eyeball == false && isScared()){
+			eyeball = true;
+			setSpeed(200);
+			setDirection(NONE);
+			onNewDirection();
+		}
+	}
+	
+	private void chasePacman(){
+		targetX = getGame().getPacman().getX();
+		targetY = getGame().getPacman().getY();
+		seekMovement();
+	}
+	
+	private void fleePacman(){
+		targetX = getGame().getPacman().getX();
+		targetY = getGame().getPacman().getY();
+		fleeMovement();
+	}
+	
+	private void leaveHome(){
+		targetX = homeX;//  - Maze.TILE_WEIGHT;
+		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
+		fleeMovement();
+	}
+	
+	private void returnHome(){
+		targetX = homeX;
+		targetY = homeY + Maze.TILE_HEIGHT;
+		seekMovement();
+	}
+	
+	private void gotoCorner(){
+		targetX = cornerTargetX;
+		targetY = cornerTargetY;
+		seekMovement();
+	}
+	
 	@Override
 	public void onNewDirection(){
 		super.onNewDirection();
 		
-		if(seekTime > 0){
-			targetX = getGame().getPacman().getX();
-			targetY = getGame().getPacman().getY();
-			if(scaredTime > 0){
-				fleeMovement();
-			} else {
-				seekMovement();
+		if(eyeball){
+			returnHome();
+			if(Math.abs(homeX - getX()) < 50 && Math.abs(homeY - getY()) < 50){
+				eyeball = false;
+				leaveHomeTime = LEAVE_HOME_TIME;
+				scaredTime = 0;
+				setSpeed(100);
 			}
-		} else {
-			targetX = cornerTargetX;
-			targetY = cornerTargetY;
-			seekMovement();
+		}
+		else{
+			if(leaveHomeTime > 0){
+				leaveHome();
+			}
+			else if(seekTime <= 0){
+				gotoCorner();
+			}
+			else if(scaredTime > 0){
+				fleePacman();
+			}
+			else{
+				chasePacman();
+			}
 		}
 		//only get's called when there is a new direction to move in
 		//targetX = getGame().getPacman().getX();
@@ -202,58 +302,20 @@ public class Ghost extends MovingActor
 		//targetMovement();
 	}
 	
+	public boolean isScared(){
+		return scaredTime > 0;
+	}
+	
 	/**
 	 * 
 	 */
 	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
-		return t.ghostCollide();
-	}
-	
-	private class DirectionSorter implements Comparator<Integer>{
-		private double diffX, diffY;
-		public DirectionSorter(){
-			diffX = targetX - getX();
-			diffY = targetY - getY();
-		}
-		
-		@Override
-		public int compare(Integer o1, Integer o2) {
-			double score1 = 0, score2 = 0;
-			if(o1 == LEFT){
-				score1 = diffX;
-			}
-			else if(o1 == RIGHT){
-				score1 = -diffX;
-			}
-			else if(o1 == UP){
-				score1 = diffY;
-			}
-			else if(o1 == DOWN){
-				score1 = -diffY; 
-			}
-			
-			if(o2 == LEFT){
-				score2 = diffX;
-			}
-			else if(o2 == RIGHT){
-				score2 = -diffX;
-			}
-			else if(o2 == UP){
-				score2 = diffY;
-			}
-			else if(o2 == DOWN){
-				score2 = -diffY; 
-			}
-			
-			if(score1 > score2){
-				return 1;
-			} else if(score1 < score2){
-				return -1;
-			} else {
-				return 0;
-			}
+		if(leaveHomeTime > 0 || eyeball){
+			return t.ghostCollide();
+		} else{
+			return t.playerCollides();
 		}
 	}
 }
