@@ -2,6 +2,9 @@ package pacman;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JLabel;
+
 import pacman.MazeTile.TileType;
 import swinggames.Game;
 import swinggames.Input;
@@ -16,6 +19,8 @@ public class PacmanGame implements Game{
 	private int dotCount;
 	private Pacman pacman;
 	private int gameScore;
+	private int lives;
+	private boolean paused;
 	
 	public PacmanGame() {
 		maze = new Maze();
@@ -24,10 +29,42 @@ public class PacmanGame implements Game{
 		actors = new ArrayList<>();
 		dotCount = 0;
 		gameScore = 0;	//
+		paused = false;
+		lives = 3;
 		addPacmanAndGhosts();
 		addPacDots();
 	}
 	
+	public void reset()
+	{
+		lives--;
+		Resources.pacmanDies.play();
+		if (lives <= 0)
+		{
+			GameOver();
+		}
+
+		else
+		{
+			maze = new Maze();
+			maze.loadTextMap(Resources.map);;
+			actors = new ArrayList<>();
+			dotCount = 0;
+			addPacmanAndGhosts();
+			addPacDots();
+		}
+	}
+	
+	public void GameOver()
+	{
+		//stop pacman and ghosts, write Game Over to screen.
+		paused = true;
+		JLabel gameover = new JLabel("Game Over");
+//		frame.add(gameover);
+		
+		
+	}
+		
 	public Pacman getPacman(){
 		return pacman;
 	}
@@ -90,17 +127,24 @@ public class PacmanGame implements Game{
 		for(int i = actors.size() - 1; i >= 0; i--){
 			actors.get(i).draw(g);
 		}
-		String score = String.valueOf(gameScore);
+		String life = String.valueOf(lives);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+		g.setColor(Color.BLACK);
+		g.drawString("Lives: " + life, 510, 20);
+		String score = String.valueOf(gameScore);
+//		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
 		g.setColor(Color.BLUE);
 		g.drawString("SCORE: ", 510, 50);
 		g.drawString(score, 540, 80);
 	}
 
+
 	@Override
 	public void update(double delta) {
+		if (!paused) {
 		for(int i = 0;i < actors.size();i++){
 			actors.get(i).update(delta);
+		}
 		}
 	}
 	

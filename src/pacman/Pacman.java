@@ -76,6 +76,9 @@ public class Pacman extends MovingActor{
 		if(other instanceof PacDot){
 			((PacDot)other).eat();
 		}
+		if(other instanceof Ghost){
+			getGame().reset();
+			}
 	}
 	
 }
