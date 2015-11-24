@@ -52,7 +52,6 @@ public class Pacman extends MovingActor{
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		
 		Input input = getGame().getInput();
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){

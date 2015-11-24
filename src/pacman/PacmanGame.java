@@ -2,10 +2,12 @@ package pacman;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-
 import pacman.MazeTile.TileType;
 import swinggames.Game;
 import swinggames.Input;
+
+import java.awt.Color;
+import java.awt.Font;
 
 public class PacmanGame implements Game{
 	private Input input;
@@ -13,14 +15,15 @@ public class PacmanGame implements Game{
 	private Maze maze;
 	private int dotCount;
 	private Pacman pacman;
+	private int gameScore;
 	
 	public PacmanGame() {
 		maze = new Maze();
 		maze.loadTextMap(Resources.map);
-		
+		Resources.openingSong.play();		//play introduction song
 		actors = new ArrayList<>();
 		dotCount = 0;
-		
+		gameScore = 0;	//
 		addPacmanAndGhosts();
 		addPacDots();
 	}
@@ -45,8 +48,11 @@ public class PacmanGame implements Game{
 	}
 	
 	public void removePacDot(){
+		Resources.wakaWaka.play();		//play when eating dots
 		dotCount--;
-		if(dotCount == 0){
+		gameScore += 10;		//update score each time pellet consumed
+		if(dotCount == 0)
+		{
 			addPacDots();
 		}
 	}
@@ -97,6 +103,11 @@ public class PacmanGame implements Game{
 		for(int i = actors.size() - 1; i >= 0; i--){
 			actors.get(i).draw(g);
 		}
+		String score = String.valueOf(gameScore);
+		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+		g.setColor(Color.BLUE);
+		g.drawString("SCORE: ", 510, 50);
+		g.drawString(score, 540, 80);
 	}
 
 	@Override

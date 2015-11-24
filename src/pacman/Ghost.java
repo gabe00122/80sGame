@@ -2,10 +2,11 @@ package pacman;
 import java.awt.Graphics2D;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
-
 import swinggames.Sprite;
 
+/**
+ * 
+ */
 public class Ghost extends MovingActor 
 {
 	private Sprite ghostSprite, ghostScaredSprite;
@@ -14,20 +15,20 @@ public class Ghost extends MovingActor
 	private static final int SCATTER_TIME = 5;
 	private static final int SCARE_TIME = 10;
 	private int idNumber;
-	private Random rand = new Random();
 	private double targetX, targetY;
 	private double cornerTargetX, cornerTargetY;
 	private double seekTime;
 	private double scaredTime;
-	
+	/**
+	 * 
+	 */
 	public Ghost(int number)
 	{
 		super();
-		//setPosition(200, 225);
 		setSize(50, 50);
 		setSpeed(100);
 		
-		seekTime = 5;
+		seekTime = 0;
 		scaredTime = 0;
 		
 		idNumber = number;
@@ -71,6 +72,7 @@ public class Ghost extends MovingActor
 		{
 			cornerTargetX = (getGame().getMaze().getMazeW()-1) * Maze.TILE_WEIGHT;
 			cornerTargetY = Maze.TILE_HEIGHT;
+			
 		}
 		
 		if(idNumber == PINK_ID)
@@ -92,13 +94,17 @@ public class Ghost extends MovingActor
 			ghostSprite.setPosition(getX(), getY());	//275, 150
 			ghostSprite.draw(g);
 		} else {
-			ghostScaredSprite.setPosition(getX(), getY());	//275, 150
-			ghostScaredSprite.draw(g);
+			if(scaredTime > 3 || (int)(scaredTime/0.5) % 2 == 0){
+				ghostScaredSprite.setPosition(getX(), getY());	//275, 150
+				ghostScaredSprite.draw(g);
+			}
 		}
 		//ghostScaredSprite.draw(g);
 	}
 
-	
+	/**
+	 * 
+	 */
 	@Override
 	public void update(double delta) 
 	{
@@ -111,30 +117,10 @@ public class Ghost extends MovingActor
 		}
 		
 		if(scaredTime > 0){
+			setSpeed(150);
 			scaredTime -= delta;
-		}
-	}
-	
-	private void randomMovement(){
-		List<Integer> directions = getDirectionChoses();
-		
-		if(directions.size() == 1){ //only one option
-			setDirection(directions.get(0));
-		}
-		else {
-			//can't go back the way we came
-			if(getDirection() == UP){
-				directions.remove((Object)DOWN);
-			} else if(getDirection() == DOWN){
-				directions.remove((Object)UP);
-			} else if(getDirection() == LEFT){
-				directions.remove((Object)RIGHT);
-			} else if(getDirection() == RIGHT){
-				directions.remove((Object)LEFT);
-			}
-			
-			//random movement
-			setDirection(directions.get(rand.nextInt(directions.size())));
+		} else{
+			setSpeed(100);
 		}
 	}
 	
@@ -199,14 +185,14 @@ public class Ghost extends MovingActor
 		if(seekTime > 0){
 			targetX = getGame().getPacman().getX();
 			targetY = getGame().getPacman().getY();
+			if(scaredTime > 0){
+				fleeMovement();
+			} else {
+				seekMovement();
+			}
 		} else {
 			targetX = cornerTargetX;
 			targetY = cornerTargetY;
-		}
-		
-		if(scaredTime > 0){
-			fleeMovement();
-		} else {
 			seekMovement();
 		}
 		//only get's called when there is a new direction to move in
@@ -216,6 +202,9 @@ public class Ghost extends MovingActor
 		//targetMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
