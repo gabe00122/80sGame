@@ -21,11 +21,11 @@ public abstract class MovingActor extends Actor {
 		this.speed = speed;
 	}
 	
-	public void setTargetDirection(int d){
+	public void setDirection(int d){
 		preferredDirection = d;
 	}
 	
-	public void setDirection(int d){
+	public void haltMovment(){
 		direction = NONE;
 	}
 	

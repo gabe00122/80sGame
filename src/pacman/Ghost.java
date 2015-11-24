@@ -139,7 +139,7 @@ public class Ghost extends MovingActor
 		List<Integer> directions = getDirectionChoses();
 		
 		if(directions.size() == 1){ //only one option
-			setTargetDirection(directions.get(0));
+			setDirection(directions.get(0));
 		}
 		else {
 			//can't go back the way we came
@@ -167,7 +167,7 @@ public class Ghost extends MovingActor
 				}
 			}
 			
-			setTargetDirection(maxDir);
+			setDirection(maxDir);
 		}
 	}
 	
@@ -175,7 +175,7 @@ public class Ghost extends MovingActor
 		List<Integer> directions = getDirectionChoses();
 		
 		if(directions.size() == 1){ //only one option
-			setTargetDirection(directions.get(0));
+			setDirection(directions.get(0));
 		}
 		else {
 			//can't go back the way we came
@@ -203,7 +203,7 @@ public class Ghost extends MovingActor
 				}
 			}
 			
-			setTargetDirection(minDir);
+			setDirection(minDir);
 		}
 	}
 	
@@ -229,11 +229,11 @@ public class Ghost extends MovingActor
 		scaredTime = SCARE_TIME;
 	}
 	
-	public void eat(){
+	public void turnToEyeballMode(){
 		if(eyeball == false && isScared()){
 			eyeball = true;
 			setSpeed(200);
-			setDirection(NONE);
+			haltMovment();
 			onNewDirection();
 		}
 	}

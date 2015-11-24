@@ -86,6 +86,7 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
 		AffineTransform saveX = g2.getTransform();

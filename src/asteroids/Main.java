@@ -1,6 +1,8 @@
 package asteroids;
 
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 import swinggames.GameDisplay;

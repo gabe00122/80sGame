@@ -1,4 +1,6 @@
 package pacman;
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import swinggames.GameDisplay;
 
@@ -16,7 +18,8 @@ public class Main {
 		PacmanGame test = new PacmanGame();
 		GameDisplay display = new GameDisplay(test, 600, 600);
 		display.setTargetFps(60);
-
+		
+		
 		frame.add(display);
 		frame.setVisible(true);
 		
