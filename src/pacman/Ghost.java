@@ -5,7 +5,8 @@ import java.util.List;
 import swinggames.Sprite;
 
 /**
- * 
+ * This class a child of MovingActor and creates ghosts
+ * for use in a Pacman game.
  */
 public class Ghost extends MovingActor 
 {
@@ -23,8 +24,10 @@ public class Ghost extends MovingActor
 	private double scaredTime;
 	private double leaveHomeTime;
 	private boolean eyeball;
+	
 	/**
-	 * 
+	 * This method is used to create all ghosts and initializing the instance variables. 
+	 * @param number The respective idNumber that correlates with each ghost. 
 	 */
 	public Ghost(int number)
 	{
@@ -67,7 +70,10 @@ public class Ghost extends MovingActor
 			
 	}
 	
-	@Override
+	/**
+	 * This method initializes where the ghosts will try to go once the game starts.
+	 * @Override
+	 */
 	public void init() {
 		homeX = getX();
 		homeY = getY();
@@ -98,30 +104,38 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * This method checks to see if the ghosts are still alive and redraws them when 
+	 * they are scared.  It redraws the ghosts to normal once a power pellet has expired. 
+	 * @param g Graphics2D component
+	 */
 	public void draw(Graphics2D g) 
 	{
 		if(eyeball){
 			ghostToEyes();
 			ghostSprite.setRotation(90);
-			ghostSprite.setPosition(getX(), getY());	//275, 150
+			ghostSprite.setPosition(getX(), getY());	
 			ghostSprite.draw(g);
 		}
 		else if(scaredTime <= 0){
-			ghostSprite.setPosition(getX(), getY());	//275, 150
+			ghostSprite.setPosition(getX(), getY());	
 			ghostSprite.setRotation(0);
 			ghostSprite.draw(g);
 		} else {
 			if(scaredTime > 3 || (int)(scaredTime/0.5) % 2 == 0){
-				ghostScaredSprite.setPosition(getX(), getY());	//275, 150
+				ghostScaredSprite.setPosition(getX(), getY());	
 				ghostScaredSprite.draw(g);
 			}
 		}
 	}
 
+	
 	/**
-	 * 
+	 * This method is called once per frame and updates the times needed by the ghosts.
+	 * @Override
+	 * @param delta The time since the last update.
 	 */
-	@Override
+
 	public void update(double delta) 
 	{
 		super.update(delta);
@@ -136,6 +150,9 @@ public class Ghost extends MovingActor
 		scaredTime -= delta;
 	}
 	
+	/**
+	 * 
+	 */
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		if (homeX == getX() && homeY == getY())
@@ -175,6 +192,9 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void fleeMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
@@ -211,6 +231,13 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 * @param dir
+	 * @param diffX
+	 * @param diffY
+	 * @return
+	 */
 	private double getDirectionScore(int dir, double diffX, double diffY){
 		double score;
 		if(dir == LEFT){
@@ -229,10 +256,15 @@ public class Ghost extends MovingActor
 		return score;
 	}
 	
+	/**
+	 * 
+	 */
 	public void scare(){
 		scaredTime = SCARE_TIME;
 	}
-	
+	/**
+	 * 
+	 */
 	public void eat(){
 		if(eyeball == false && isScared()){
 			eyeball = true;
@@ -242,30 +274,47 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void chasePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		seekMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void fleePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		fleeMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
 		fleeMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void returnHome(){
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
 		eyesToGhost(idNumber);
 	}
+	
+	/**
+	 * 
+	 * @param idNumber
+	 */
 	private void eyesToGhost(int idNumber)
 	{
 		if(idNumber == BLUE_ID)
@@ -289,17 +338,28 @@ public class Ghost extends MovingActor
 		}
 		ghostSprite.setSize(getWidth(), getHeight());
 	}
+	
+	/**
+	 * 
+	 */
 	private void ghostToEyes()
 	{
 		ghostSprite.setImage(Resources.deadEyes);
 		ghostSprite.setSize(15, 15);
 	}
+	
+	/**
+	 * 
+	 */
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;
 		seekMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void onNewDirection(){
 		super.onNewDirection();
@@ -328,6 +388,10 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isScared(){
 		return scaredTime > 0;
 	}
