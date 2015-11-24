@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 public class Resources {
 	public static Image pacman;
-	public static Image ghostB, ghostR, ghostP, ghostO, ghostS, cherry, orange, strawberry;
+	public static Image ghostB, ghostR, ghostP, ghostO, ghostS, cherry, orange, strawberry, deadEyes;
 	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka;
 	public static String[] map;
 
@@ -24,6 +24,7 @@ public class Resources {
 			ghostO = ImageIO.read(new File("assets/orangeGhost.png"));
 			ghostR = ImageIO.read(new File("assets/redGhost.png"));
 			ghostP = ImageIO.read(new File("assets/pinkGhost.png"));
+			deadEyes = ImageIO.read(new File("assets/Eyes.png"));
 			
 			cherry 		= ImageIO.read(new File("assets/cherry.png"));
 			orange 		= ImageIO.read(new File("assets/orange.png"));

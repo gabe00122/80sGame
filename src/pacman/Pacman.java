@@ -55,16 +55,16 @@ public class Pacman extends MovingActor{
 		Input input = getGame().getInput();
 		
 		if(input.isKeyDown(KeyEvent.VK_UP)){
-			setDirection(UP);
+			setTargetDirection(UP);
 		}
 		if(input.isKeyDown(KeyEvent.VK_DOWN)){
-			setDirection(DOWN);
+			setTargetDirection(DOWN);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_LEFT)){
-			setDirection(LEFT);
+			setTargetDirection(LEFT);
 		} 
 		if(input.isKeyDown(KeyEvent.VK_RIGHT)){
-			setDirection(RIGHT);
+			setTargetDirection(RIGHT);
 		}
 		
 		for (Actor other: getGame().checkCollisons(getX(), getY(), getWidth(), getHeight())) {
@@ -75,10 +75,20 @@ public class Pacman extends MovingActor{
 	private void collison(Actor other){
 		if(other instanceof PacDot){
 			((PacDot)other).eat();
-		}
-		if(other instanceof Ghost){
-			getGame().reset();
+		}else if(other instanceof Ghost){
+			Ghost g = (Ghost)other;
+			if(g.isScared()){
+				g.eat();
 			}
+			else {
+				getGame().reset();
+			}
+		}
+	}
+
+	@Override
+	public void init() {
+		
 	}
 	
 }

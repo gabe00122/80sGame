@@ -12,6 +12,9 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
+/**
+ * A game display panel which contains and updates a game.
+ */
 public class GameDisplay extends JComponent implements KeyListener, ComponentListener, Runnable{
 	private static final long serialVersionUID = 1L;
 	
@@ -32,6 +35,12 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	private int w, h;
 	private AffineTransform trans;
 	
+	/**
+	 * 
+	 * @param game the game object that is to be displayed
+	 * @param width the simulated width of the panel
+	 * @param height the height width of the panel
+	 */
 	public GameDisplay(Game game, int width, int height) {
 		setFocusable(true);
 		addKeyListener(this);
@@ -54,6 +63,9 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		game.setInput(keyboard);
 	}
 	
+	/*
+	 * set
+	 */
 	public void setTargetFps(int fps){
 		targetFps = fps;
 	}
@@ -116,7 +128,7 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 			
 			int delta = (int)(beforeTime - lastUpdateTime);
 			lastUpdateTime = beforeTime;
-			updateGame(delta/SECOND);
+			updateGame(1.0/targetFps);
 			
 			fpsTrackerTime += delta;
 			if(fpsTrackerTime > SECOND){

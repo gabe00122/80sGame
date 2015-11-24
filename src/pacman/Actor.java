@@ -71,6 +71,7 @@ public abstract class Actor {
 		return game;
 	}
 	
+	public abstract void init();
 	public abstract void draw(Graphics2D g);
 	public abstract void update(double delta);
 }
