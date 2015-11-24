@@ -312,8 +312,8 @@ public class Ghost extends MovingActor
 	}
 	
 	/**
-	 * 
-	 * @param idNumber
+	 * This method converts the eyes of the dead ghosts back to their respective ghost image.
+	 * @param idNumber The number that corresponds to each ghost.
 	 */
 	private void eyesToGhost(int idNumber)
 	{
@@ -340,7 +340,7 @@ public class Ghost extends MovingActor
 	}
 	
 	/**
-	 * 
+	 * This method sets the image of the ghost to an image of eyes when it has been consumed.
 	 */
 	private void ghostToEyes()
 	{
