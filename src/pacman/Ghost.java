@@ -1,11 +1,10 @@
 package pacman;
 import java.awt.Graphics2D;
 import java.util.List;
-
 import swinggames.Sprite;
 
 /**
- * This class a child of MovingActor and creates ghosts
+ * This class is a child of MovingActor and creates ghosts
  * for use in a Pacman game.
  */
 public class Ghost extends MovingActor 
@@ -61,13 +60,9 @@ public class Ghost extends MovingActor
 		{
 			ghostSprite = new Sprite(Resources.ghostO);
 		}
-		ghostSprite.setSize(getWidth(), getHeight());
-		
 		//create a scared ghost for later
 		ghostScaredSprite = new Sprite(Resources.ghostS);
-		ghostScaredSprite.setSize(getWidth(), getHeight());
-		
-			
+		ghostSprite.setSize(getWidth(), getHeight());		
 	}
 	
 	/**
