@@ -285,11 +285,10 @@ public class Ghost extends MovingActor
 			if(leaveHomeTime > 0){
 				leaveHome();
 			}
-			else if(seekTime <= 0){
-				gotoCorner();
-			}
 			else if(scaredTime > 0){
 				fleePacman();
+			}else if(seekTime <= 0){
+				gotoCorner();
 			}
 			else{
 				chasePacman();

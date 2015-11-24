@@ -40,6 +40,17 @@ public abstract class MovingActor extends Actor {
 		boolean canMoveLeft = canMoveX(-speed * delta);
 		boolean canMoveRight = canMoveX(speed * delta);
 		
+		if(this.canMoveUp != canMoveUp ||
+				this.canMoveDown != canMoveDown ||
+				this.canMoveLeft != canMoveLeft ||
+				this.canMoveRight != canMoveRight){
+			this.canMoveUp = canMoveUp;
+			this.canMoveDown = canMoveDown;
+			this.canMoveLeft = canMoveLeft;
+			this.canMoveRight = canMoveRight;
+			onNewDirection();
+		}
+		
 		if(preferredDirection == UP && canMoveUp)
 		{
 			direction = preferredDirection;
@@ -70,17 +81,6 @@ public abstract class MovingActor extends Actor {
 		case RIGHT:
 			move(speed * delta, 0);
 			break;
-		}
-		
-		if(this.canMoveUp != canMoveUp ||
-				this.canMoveDown != canMoveDown ||
-				this.canMoveLeft != canMoveLeft ||
-				this.canMoveRight != canMoveRight){
-			this.canMoveUp = canMoveUp;
-			this.canMoveDown = canMoveDown;
-			this.canMoveLeft = canMoveLeft;
-			this.canMoveRight = canMoveRight;
-			onNewDirection();
 		}
 	}
 	
