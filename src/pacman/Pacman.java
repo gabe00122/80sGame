@@ -80,6 +80,9 @@ public class Pacman extends MovingActor{
 			if(g.isScared()){
 				g.turnToEyeballMode();
 			}
+			else {
+				getGame().reset();
+			}
 		}
 	}
 

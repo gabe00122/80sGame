@@ -13,6 +13,7 @@ public class Main {
 		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("pacman");
+		frame.setBackground(Color.BLACK);
 		
 		
 		PacmanGame test = new PacmanGame();

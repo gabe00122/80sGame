@@ -63,6 +63,7 @@ public class Ghost extends MovingActor
 		//create a scared ghost for later
 		ghostScaredSprite = new Sprite(Resources.ghostS);
 		ghostScaredSprite.setSize(getWidth(), getHeight());
+		
 			
 	}
 	
@@ -100,6 +101,7 @@ public class Ghost extends MovingActor
 	public void draw(Graphics2D g) 
 	{
 		if(eyeball){
+			ghostToEyes();
 			ghostSprite.setRotation(90);
 			ghostSprite.setPosition(getX(), getY());	//275, 150
 			ghostSprite.draw(g);
@@ -114,7 +116,6 @@ public class Ghost extends MovingActor
 				ghostScaredSprite.draw(g);
 			}
 		}
-		//ghostScaredSprite.draw(g);
 	}
 
 	/**
@@ -137,7 +138,10 @@ public class Ghost extends MovingActor
 	
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
-		
+		if (homeX == getX() && homeY == getY())
+		{
+			eyesToGhost(idNumber);
+		}
 		if(directions.size() == 1){ //only one option
 			setDirection(directions.get(0));
 		}
@@ -260,8 +264,36 @@ public class Ghost extends MovingActor
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
+		eyesToGhost(idNumber);
 	}
-	
+	private void eyesToGhost(int idNumber)
+	{
+		if(idNumber == BLUE_ID)
+		{
+			ghostSprite.setImage(Resources.ghostB);
+		}
+		
+		if(idNumber == RED_ID)
+		{
+			ghostSprite.setImage(Resources.ghostR);
+		}
+		
+		if(idNumber == PINK_ID)
+		{
+			ghostSprite.setImage(Resources.ghostP);
+		}
+		
+		if(idNumber == ORANGE_ID)
+		{
+			ghostSprite.setImage(Resources.ghostO);
+		}
+		ghostSprite.setSize(getWidth(), getHeight());
+	}
+	private void ghostToEyes()
+	{
+		ghostSprite.setImage(Resources.deadEyes);
+		ghostSprite.setSize(15, 15);
+	}
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;
@@ -272,7 +304,7 @@ public class Ghost extends MovingActor
 	public void onNewDirection(){
 		super.onNewDirection();
 		
-		if(eyeball){
+		if(eyeball){				
 			returnHome();
 			if(Math.abs(homeX - getX()) < 50 && Math.abs(homeY - getY()) < 50){
 				eyeball = false;
@@ -294,11 +326,6 @@ public class Ghost extends MovingActor
 				chasePacman();
 			}
 		}
-		//only get's called when there is a new direction to move in
-		//targetX = getGame().getPacman().getX();
-		//targetY = getGame().getPacman().getY();
-		
-		//targetMovement();
 	}
 	
 	public boolean isScared(){
@@ -319,10 +346,3 @@ public class Ghost extends MovingActor
 	}
 }
 
-//System.out.println("x: "+ x + " y: "+y);
-/*while (collidesWithTile(getGame().getMaze().getTileAt(x, y)) == true)		
-{
-	System.out.println("Changing Direction to " + dir);
-	setDirection(dir);
-	//System.out.println(dir);	
-}*/
