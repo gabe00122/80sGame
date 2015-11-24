@@ -69,7 +69,7 @@ public abstract class MovingActor extends Actor {
 			break;
 		}
 		
-		if(this.canMoveUp != canMoveUp || 
+		if(this.canMoveUp != canMoveUp ||
 				this.canMoveDown != canMoveDown ||
 				this.canMoveLeft != canMoveLeft ||
 				this.canMoveRight != canMoveRight){
@@ -84,7 +84,7 @@ public abstract class MovingActor extends Actor {
 	public void move(double changeX, double changeY){
 		while(!canMoveX(changeX)){
 			changeX /= 2;
-			if(Math.abs(changeX) <= COLLISION_PADDING/2){
+			if(Math.abs(changeX) <= COLLISION_PADDING/4){
 				changeX = 0;
 				break;
 			}
@@ -92,7 +92,7 @@ public abstract class MovingActor extends Actor {
 		
 		while(!canMoveY(changeY)){
 			changeY /= 2;
-			if(Math.abs(changeY) <= COLLISION_PADDING/2){
+			if(Math.abs(changeY) <= COLLISION_PADDING/4){
 				changeY = 0;
 				break;
 			}
@@ -133,21 +133,6 @@ public abstract class MovingActor extends Actor {
 		return true;
 	}
 	
-	public boolean canMoveDirection(int dir){
-		switch (dir) {
-		case UP:
-			return canMoveUp;
-		case DOWN:
-			return canMoveDown;
-		case LEFT:
-			return canMoveLeft;
-		case RIGHT:
-			return canMoveRight;
-		default:
-			return false;
-		}
-	}
-	
 	public void onNewDirection(){
 		
 	}
@@ -155,16 +140,16 @@ public abstract class MovingActor extends Actor {
 	public List<Integer> getDirectionChoses(){
 		List<Integer> out = new ArrayList<>();
 		
-		if(canMoveDirection(UP)){
+		if(canMoveUp){
 			out.add(UP);
 		}
-		if(canMoveDirection(DOWN)){
+		if(canMoveDown){
 			out.add(DOWN);
 		}
-		if(canMoveDirection(LEFT)){
+		if(canMoveLeft){
 			out.add(LEFT);
 		}
-		if(canMoveDirection(RIGHT)){
+		if(canMoveRight){
 			out.add(RIGHT);
 		}
 		

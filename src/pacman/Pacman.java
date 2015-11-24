@@ -78,5 +78,10 @@ public class Pacman extends MovingActor{
 			((PacDot)other).eat();
 		}
 	}
+
+	@Override
+	public void init() {
+		
+	}
 	
 }

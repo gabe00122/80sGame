@@ -34,7 +34,10 @@ public class PacmanGame implements Game{
 			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
 				if(tileType == TileType.PAC_DOT){
-					addActor(new PacDot(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT));
+					addActor(new PacDot(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT, false));
+					dotCount++;
+				} else if(tileType == TileType.SUPER_DOT){
+					addActor(new PacDot(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT, true));
 					dotCount++;
 				}
 			}
@@ -65,6 +68,16 @@ public class PacmanGame implements Game{
 				}
 			}
 		}
+	}
+	
+	public List<Ghost> getGhosts(){
+		List<Ghost> out = new ArrayList<>();
+		for(Actor a: actors){
+			if(a instanceof Ghost){
+				out.add((Ghost)a);
+			}
+		}
+		return out;
 	}
 	
 	public List<Actor> checkCollisons(double x, double y, double w, double h){
@@ -100,6 +113,7 @@ public class PacmanGame implements Game{
 	public void addActor(Actor actor){
 		actor.setGame(this);
 		actors.add(actor);
+		actor.init();
 	}
 	
 	public void removeActor(Actor actor){
