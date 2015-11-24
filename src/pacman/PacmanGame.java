@@ -105,9 +105,9 @@ public class PacmanGame implements Game{
 			actors.get(i).draw(g);
 		}
 		String score = String.valueOf(gameScore);
-		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+		g.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		g.setColor(Color.BLUE);
-		g.drawString("SCORE: ", 510, 50);
+		g.drawString("SCORE: ", 530, 50);
 		g.drawString(score, 540, 80);
 	}
 
