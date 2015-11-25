@@ -2,11 +2,11 @@ package pacman;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.List;
-
 import swinggames.Sprite;
 
 /**
- * A ghost that will chase a pacman.
+ * This class is a child of MovingActor and creates ghosts
+ * for use in a Pacman game.
  */
 public class Ghost extends MovingActor 
 {
@@ -27,7 +27,8 @@ public class Ghost extends MovingActor
 	private double leaveHomeTime;
 	private boolean eyeballMode;
 	/**
-	 * @param number between 0 and 4, represents the ghost color and the corner they go two
+	 * This method is used to create all ghosts and initializing the instance variables. 
+	 * @param number The respective idNumber that correlates with each ghost. Between one and four.
 	 */
 	public Ghost(int number)
 	{
@@ -61,15 +62,18 @@ public class Ghost extends MovingActor
 		{
 			ghostImage = Resources.ghostO;
 		}
+		
 		ghostSprite = new Sprite(ghostImage);
 		ghostSprite.setSize(getWidth(), getHeight());
 		
-		//create a scared ghost for later
 		scaredImage = Resources.ghostS;
 		eyesImage = Resources.deadEyes;
 	}
 	
-	@Override
+	/**
+	 * This method initializes where the ghosts will try to go once the game starts.
+	 * @Override
+	 */
 	public void init() {
 		homeX = getX();
 		homeY = getY();
@@ -99,7 +103,11 @@ public class Ghost extends MovingActor
 		}
 	}
 	
-	@Override
+	/**
+	 * This method checks to see if the ghosts are still alive and redraws them when 
+	 * they are scared.  It redraws the ghosts to normal once a power pellet has expired. 
+	 * @param g Graphics2D component
+	 */
 	public void draw(Graphics2D g) 
 	{
 		if(eyeballMode){
@@ -121,8 +129,13 @@ public class Ghost extends MovingActor
 				ghostSprite.draw(g);
 			}
 		}
-	}
-
+	}	
+	
+	/**
+	 * This method is called once per frame and updates the times needed by the ghosts.
+	 * @Override
+	 * @param delta The time since the last update.
+	 */
 	@Override
 	public void update(double delta) 
 	{
@@ -138,6 +151,9 @@ public class Ghost extends MovingActor
 		scaredTime -= delta;
 	}
 	
+	/**
+	 * 
+	 */
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		if(directions.size() == 1){ //only one option
@@ -173,6 +189,9 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void fleeMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
@@ -209,6 +228,13 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 * @param dir
+	 * @param diffX
+	 * @param diffY
+	 * @return
+	 */
 	private double getDirectionScore(int dir, double diffX, double diffY){
 		double score;
 		if(dir == LEFT){
@@ -234,7 +260,6 @@ public class Ghost extends MovingActor
 		scaredTime = SCARE_TIME;
 	}
 	
-	
 	/**
 	 * ghost to eyeball mode
 	 */
@@ -248,36 +273,54 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void chasePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		seekMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void fleePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		fleeMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
 		fleeMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	private void returnHome(){
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
 	}
-	
+
+	/**
+	 * 
+	 */
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;
 		seekMovement();
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void onNewDirection(){
 		super.onNewDirection();
@@ -306,6 +349,10 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isScared(){
 		return scaredTime > 0;
 	}
