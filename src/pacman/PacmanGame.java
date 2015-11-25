@@ -22,6 +22,13 @@ public class PacmanGame implements Game{
 	private int gameScore;
 	private int lives;
 	private boolean paused;
+	private double startGameDelay = 4;
+	private double deathDelay = 1.5;
+	private int gameState = START;
+	private static final int START = 0;
+	private static final int PLAYING = 1;
+	private static final int DEATH = 2;
+	private static final int NEWLEVEL = 3;
 	
 	public PacmanGame() {
 		maze = new Maze();
@@ -30,8 +37,8 @@ public class PacmanGame implements Game{
 		actors = new ArrayList<>();
 		dotCount = 0;
 		gameScore = 0;	//
-		paused = false;
-		lives = 3;
+		paused = true;
+		lives = 1;
 		addPacmanAndGhosts();
 		addPacDots();
 	}
@@ -39,29 +46,25 @@ public class PacmanGame implements Game{
 	public void reset()
 	{
 		lives--;
-		Resources.pacmanDies.play();
-		if (lives <= 0)
-		{
-			GameOver();
-		}
+		DeathRun();
 
-		else
-		{
-			maze = new Maze();
-			maze.loadTextMap(Resources.map);;
-			actors = new ArrayList<>();
-			dotCount = 0;
-			addPacmanAndGhosts();
-			addPacDots();
-		}
 	}
 	
+	public void NextLife()
+	{
+		paused = true;
+		maze = new Maze();
+		maze.loadTextMap(Resources.map);;
+		actors = new ArrayList<>();
+		dotCount = 0;
+		addPacmanAndGhosts();
+		addPacDots();
+
+	}
 	public void GameOver()
 	{
 		//stop pacman and ghosts, write Game Over to screen.
 		paused = true;
-		JLabel gameover = new JLabel("Game Over");
-//		frame.add(gameover);
 		
 		
 	}
@@ -86,6 +89,7 @@ public class PacmanGame implements Game{
 	}
 	
 	public void removePacDot(){
+		
 		Resources.wakaWaka.play();		//play when eating dots
 		dotCount--;
 		gameScore += 10;		//update score each time pellet consumed
@@ -134,7 +138,7 @@ public class PacmanGame implements Game{
 		}
 		return out;
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		maze.draw(g);
@@ -146,20 +150,93 @@ public class PacmanGame implements Game{
 		g.setColor(Color.BLACK);
 		g.drawString("Lives: " + life, 510, 20);
 		String score = String.valueOf(gameScore);
-//		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
 		g.setColor(Color.BLUE);
 		g.drawString("SCORE: ", 530, 50);
 		g.drawString(score, 540, 80);
+		
+		if (lives <= 0)
+		{
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("TimesRoman", Font.BOLD, 80));
+			g.drawString("GAME OVER",  100,  250);
+		}
 	}
 
 
 	@Override
 	public void update(double delta) {
-		if (!paused) {
-		for(int i = 0;i < actors.size();i++){
-			actors.get(i).update(delta);
+		if (gameState == START)
+		{
+			startGameDelay -= delta;
+			if (startGameDelay < 0)
+			{
+				gameState = PLAYING;
+				startGameDelay = 4;
+			}
 		}
+		
+		if (gameState == PLAYING)
+		{
+			for (int i = 0;i < actors.size();i++)
+			{
+				actors.get(i).update(delta);
+			}
 		}
+		
+		if (gameState == DEATH)
+		{
+			deathDelay -= delta;
+			if (deathDelay < 0)
+			{
+				if (lives <= 0)
+				{
+					GameOver();
+					
+				}
+
+				else
+				{
+					StartRun();
+				}
+			}
+		}
+//		if (gameState = NEWLEVEL)
+//		{
+//			newLevelDelay -= delta;
+//			if (newLevelDelay < 0)
+//			{
+//				NewLevel();
+//				StartRun();
+//			}
+//		}
+	}
+
+//	startGameDelay-= delta;
+//	if (!paused)
+//	{
+//	for(int i = 0;i < actors.size();i++)
+//			{
+//		actors.get(i).update(delta);
+//			}
+//	}
+//	if(startGameDelay < 0)
+//	{
+//		paused = false;
+//	}
+	
+	public void DeathRun()
+	{
+		deathDelay = 1.5;
+		Resources.pacmanDies.play();
+		gameState = DEATH;
+	}
+		
+	public void StartRun()
+	{
+		NextLife();
+		startGameDelay = 4;
+		Resources.openingSong.play();
+		gameState = START;
 	}
 	
 	public Maze getMaze(){

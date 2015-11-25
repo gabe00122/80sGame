@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 public class Resources {
 	public static Image pacman;
 	public static Image ghostB, ghostR, ghostP, ghostO, ghostS, cherry, orange, strawberry, deadEyes;
-	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka;
+	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka, intermission;
 	public static String[] map;
 
 	public static void load(){
@@ -38,7 +38,8 @@ public class Resources {
 			eatingGhost = Applet.newAudioClip(new URL("file:assets/eating_ghost.wav"));
 			openingSong = Applet.newAudioClip(new URL("file:assets/intro_music.wav"));
 			eatingFruit = Applet.newAudioClip(new URL("file:assets/eating_fruit.wav"));
-			wakaWaka 	= Applet.newAudioClip(new URL("file:assets/waka_waka.wav"));
+			wakaWaka 	= Applet.newAudioClip(new URL("file:assets/waka.wav"));
+			intermission = Applet.newAudioClip(new URL("file:assets/pacman_intermission.wav"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
