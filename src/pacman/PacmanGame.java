@@ -15,6 +15,9 @@ import java.awt.Font;
 
 public class PacmanGame implements Game{
 	public static final Color BACKGROUND_COLOR = Color.BLACK;
+	/**
+	 * Most of the game creation, pausing the game, playing audio clips upon event phenomena, 
+	 */
 	
 	private Input input;
 	private List<Actor> actors;
@@ -49,6 +52,9 @@ public class PacmanGame implements Game{
 	
 	public void reset()
 	{
+		/**
+		 * Subtracts 1 life and runs method to play sound when pacman dies.
+		 */
 		lives--;
 		DeathRun();
 
@@ -56,13 +62,12 @@ public class PacmanGame implements Game{
 	
 	public void NextLife()
 	{
+		/**
+		 * The works of an improved death reset.
+		 */
+		
 		paused = true;
 		removeActor(pacman);
-		
-
-		removeActor(ghost);
-		removeActor(ghost);
-		removeActor(ghost);
 		removeActor(ghost);
 		addPacmanAndGhosts();
 		
@@ -70,6 +75,9 @@ public class PacmanGame implements Game{
 
 	public void LifeBegin()
 	{
+		/**
+		 * The current creation of maps and reset between levels and deaths.
+		 */
 		paused = true;
 		maze = new Maze();
 		maze.loadTextMap(Resources.map);;
@@ -81,6 +89,9 @@ public class PacmanGame implements Game{
 	
 	public void GameOver()
 	{
+		/**
+		 * Pauses the game for the game over screen.
+		 */
 		//stop pacman and ghosts, write Game Over to screen.
 		paused = true;
 		
@@ -88,9 +99,15 @@ public class PacmanGame implements Game{
 		
 	public Pacman getPacman(){
 		return pacman;
+		/**
+		 * Returns pacman.
+		 */
 	}
 	
 	private void addPacDots(){
+		/**
+		 * adds pacman pellets to the maze.
+		 */
 		for(int y = 0;y < maze.getMazeH(); y++){
 			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
@@ -106,7 +123,9 @@ public class PacmanGame implements Game{
 	}
 	
 	public void removePacDot(){
-		
+		/**
+		 * Removes pacman pellets from the maze when pacman eats them.
+		 */
 		Resources.wakaWaka.play();		//play when eating dots
 		dotCount--;
 		gameScore += 10;		//update score each time pellet consumed
@@ -117,17 +136,22 @@ public class PacmanGame implements Game{
 	}
 	
 	public void addScore(int score){
+		/**
+		 * Method to add score.
+		 */
 		gameScore += score;
 	}
 	
 	private void addPacmanAndGhosts()
 	{
+		/**
+		 * Adds pacman and ghosts into the maze.
+		 */
 		int ghostCount = 0;
+		Ghost redGhost = null;
 		
-		for(int y = 0;y < maze.getMazeH(); y++)
-		{
-			for(int x = 0; x < maze.getMazeW(); x++)
-			{
+		for(int y = 0;y < maze.getMazeH(); y++){
+			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
 				if(tileType == TileType.PACMAN_SPAWN)
 				{
@@ -135,9 +159,22 @@ public class PacmanGame implements Game{
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 				}
-				else if(tileType == TileType.GHOST_SPAWN)
-				{
-					ghost = new Ghost(ghostCount++ % 4);
+				 else if(tileType == TileType.GHOST_SPAWN){
+					Ghost ghost;
+					switch (ghostCount++ % 4) {
+					case 0:
+						ghost = new RedGhost();
+						redGhost = ghost;
+						break;
+					case 1:
+						ghost = new OrangeGhost();
+						break;
+					case 2:
+						ghost = new PinkGhost();
+						break;
+					default:
+						ghost = new BlueGhost(redGhost);
+					}
 					ghost.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 					addActor(ghost);
 				}
@@ -146,6 +183,9 @@ public class PacmanGame implements Game{
 	}
 	
 	public List<Ghost> getGhosts(){
+		/**
+		 * returns Array List of ghosts.
+		 */
 		List<Ghost> out = new ArrayList<>();
 		for(Actor a: actors){
 			if(a instanceof Ghost){
@@ -156,6 +196,9 @@ public class PacmanGame implements Game{
 	}
 	
 	public List<Actor> checkCollisons(double x, double y, double w, double h){
+		/**
+		 * Collision check for our moving entities.
+		 */
 		List<Actor> out = new ArrayList<>();
 		for(int i = 0;i < actors.size();i ++){
 			Actor actor = actors.get(i);
@@ -168,6 +211,9 @@ public class PacmanGame implements Game{
 
 	@Override
 	public void draw(Graphics2D g) {
+		/**
+		 * How we added text to our game (Game Over, Lives, Score)
+		 */
 		maze.draw(g);
 		for(int i = actors.size() - 1; i >= 0; i--){
 			actors.get(i).draw(g);
@@ -190,6 +236,9 @@ public class PacmanGame implements Game{
 
 	@Override
 	public void update(double delta) {
+		/**
+		 * Updating positioning of our characters based on the state of the game.
+		 */
 		if (gameState == START)
 		{
 			startGameDelay -= delta;
@@ -238,6 +287,9 @@ public class PacmanGame implements Game{
 
 	public void DeathRun()
 	{
+		/**
+		 * Method to pause game and play sound of death, then change state of game to death.
+		 */
 		deathDelay = 1.5;
 		Resources.pacmanDies.play();
 		gameState = DEATH;
@@ -245,6 +297,9 @@ public class PacmanGame implements Game{
 		
 	public void StartRun()
 	{
+		/**
+		 * Method to pause game and play intro song, then changes game state to start.
+		 */
 		LifeBegin();
 		startGameDelay = 4;
 		Resources.openingSong.play();
@@ -253,6 +308,9 @@ public class PacmanGame implements Game{
 	
 	public void MidRun()
 	{
+		/**
+		 * The works of an improved method of resetting map after death.
+		 */
 		NextLife();
 		startGameDelay = 4;
 		Resources.openingSong.play();
@@ -261,6 +319,9 @@ public class PacmanGame implements Game{
 
 	public void NextLevel()
 	{
+		/**
+		 * Method to pause game and play level victory song, then change game state to new level.
+		 */
 		interDelay = 5;
 		Resources.intermission.play();
 		gameState = NEWLEVEL;

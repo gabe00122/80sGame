@@ -11,12 +11,20 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+/**
+ * This class is used to load the resources used in the game.
+ *
+ */
 public class Resources {
 	public static Image pacman;
 	public static Image ghostB, ghostR, ghostP, ghostO, ghostS, cherry, orange, strawberry, deadEyes;
 	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka, intermission, siren;
 	public static String[] map;
 
+	/**
+	 * This method loads the resources used
+	 * like ghosts pacman and the map.
+	 */
 	public static void load(){
 		try {
 			pacman = ImageIO.read(new File("assets/pacman.png"));
@@ -46,7 +54,12 @@ public class Resources {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * This method reads from the map.txt file and adds components to an array.
+	 * @param file The map.txt file
+	 * @return array used for creating the map
+	 * @throws FileNotFoundException
+	 */
 	public static String[] loadTextMap(File file) throws FileNotFoundException{
 			Scanner in = new Scanner(file);
 			
