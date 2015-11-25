@@ -25,14 +25,27 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * @return the weight in tiles of the maze
+	 */
 	public int getMazeW(){
 		return mapW;
 	}
 	
+	/**
+	 * @return the height in tiles of the maze
+	 */
 	public int getMazeH(){
 		return mapH;
 	}
 	
+	/**
+	 * if outside of bounds returns a default tile of type null.
+	 * 
+	 * @param x in tiles starts at 0
+	 * @param y in tiles starts at 0
+	 * @return a tile
+	 */
 	public MazeTile getTile(int x, int y){
 		if(x >= 0 && x < mapW && y >= 0 && y < mapH){
 			return tiles[y][x];
@@ -41,6 +54,10 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param tMap example {"###", "#.#", "###"}
+	 */
 	public void loadTextMap(String[] tMap){
 		mapH = tMap.length;
 		mapW = tMap[0].length();
@@ -54,6 +71,9 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * gets a tile at the coordinate in pixels
+	 */
 	public MazeTile getTileAt(double x, double y){
 		return getTile((int)(x/TILE_WEIGHT), (int)(y/TILE_HEIGHT));
 	}

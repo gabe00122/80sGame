@@ -7,10 +7,18 @@ public class MazeTile {
 	private TileType tileType;
 	private static final BasicStroke stroke = new BasicStroke(3);
 	
+	/**
+	 * 
+	 * @param type
+	 */
 	public MazeTile(TileType type){
 		tileType = type;
 	}
 	
+	/**
+	 * 
+	 * @param c the tile type
+	 */
 	public MazeTile(char c){
 		switch (c) {
 		case '#':
@@ -45,7 +53,7 @@ public class MazeTile {
 		if(isVisible()){
 			g.setColor(tileType.color);
 		} else {
-			g.setColor(Color.BLACK);
+			g.setColor(PacmanGame.BACKGROUND_COLOR);
 		}
 		
 		g.fillRect(x1, y1, Maze.TILE_WEIGHT, Maze.TILE_HEIGHT);

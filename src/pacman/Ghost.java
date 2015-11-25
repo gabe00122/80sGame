@@ -1,20 +1,23 @@
 package pacman;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.List;
 
 import swinggames.Sprite;
 
 /**
- * 
+ * A ghost that will chase a pacman.
  */
 public class Ghost extends MovingActor 
 {
-	private Sprite ghostSprite, ghostScaredSprite;
+	private Sprite ghostSprite;
+	private Image ghostImage, scaredImage, eyesImage;
 	private static final int BLUE_ID = 0, RED_ID = 1, PINK_ID = 2, ORANGE_ID = 3;
 	private static final int SEEK_TIME = 5;
 	private static final int SCATTER_TIME = 5;
 	private static final int SCARE_TIME = 10;
 	private static final int LEAVE_HOME_TIME = 5;	
+	
 	private int idNumber;
 	private double targetX, targetY;
 	private double cornerTargetX, cornerTargetY;
@@ -22,9 +25,9 @@ public class Ghost extends MovingActor
 	private double seekTime;
 	private double scaredTime;
 	private double leaveHomeTime;
-	private boolean eyeball;
+	private boolean eyeballMode;
 	/**
-	 * 
+	 * @param number between 0 and 4, represents the ghost color and the corner they go two
 	 */
 	public Ghost(int number)
 	{
@@ -35,36 +38,35 @@ public class Ghost extends MovingActor
 		seekTime = 0;
 		scaredTime = 0;
 		leaveHomeTime = LEAVE_HOME_TIME;
-		eyeball = false;
+		eyeballMode = false;
 		
 		idNumber = number;
 		//creating ghosts (blue, red, pink, orange)
 		if(number == BLUE_ID)
 		{
-			ghostSprite = new Sprite(Resources.ghostB);
+			ghostImage = Resources.ghostB;
 		}
 		
 		if(number == RED_ID)
 		{
-			ghostSprite = new Sprite(Resources.ghostR);
+			ghostImage = Resources.ghostR;
 		}
 		
 		if(number == PINK_ID)
 		{
-			ghostSprite = new Sprite(Resources.ghostP);
+			ghostImage = Resources.ghostP;
 		}
 		
 		if(number == ORANGE_ID)
 		{
-			ghostSprite = new Sprite(Resources.ghostO);
+			ghostImage = Resources.ghostO;
 		}
+		ghostSprite = new Sprite(ghostImage);
 		ghostSprite.setSize(getWidth(), getHeight());
 		
 		//create a scared ghost for later
-		ghostScaredSprite = new Sprite(Resources.ghostS);
-		ghostScaredSprite.setSize(getWidth(), getHeight());
-		
-			
+		scaredImage = Resources.ghostS;
+		eyesImage = Resources.deadEyes;
 	}
 	
 	@Override
@@ -82,7 +84,6 @@ public class Ghost extends MovingActor
 		{
 			cornerTargetX = (getGame().getMaze().getMazeW()-1) * Maze.TILE_WEIGHT;
 			cornerTargetY = Maze.TILE_HEIGHT;
-			
 		}
 		
 		if(idNumber == PINK_ID)
@@ -98,29 +99,30 @@ public class Ghost extends MovingActor
 		}
 	}
 	
+	@Override
 	public void draw(Graphics2D g) 
 	{
-		if(eyeball){
-			ghostToEyes();
-			ghostSprite.setRotation(90);
-			ghostSprite.setPosition(getX(), getY());	//275, 150
+		if(eyeballMode){
+			ghostSprite.setImage(eyesImage);
+			ghostSprite.setSize(getWidth(), getHeight());
+			ghostSprite.setPosition(getX(), getY());
 			ghostSprite.draw(g);
 		}
 		else if(scaredTime <= 0){
-			ghostSprite.setPosition(getX(), getY());	//275, 150
-			ghostSprite.setRotation(0);
+			ghostSprite.setImage(ghostImage);
+			ghostSprite.setSize(getWidth(), getHeight());
+			ghostSprite.setPosition(getX(), getY());
 			ghostSprite.draw(g);
 		} else {
 			if(scaredTime > 3 || (int)(scaredTime/0.5) % 2 == 0){
-				ghostScaredSprite.setPosition(getX(), getY());	//275, 150
-				ghostScaredSprite.draw(g);
+				ghostSprite.setImage(scaredImage);
+				ghostSprite.setSize(getWidth(), getHeight());
+				ghostSprite.setPosition(getX(), getY());
+				ghostSprite.draw(g);
 			}
 		}
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public void update(double delta) 
 	{
@@ -138,10 +140,6 @@ public class Ghost extends MovingActor
 	
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
-		if (homeX == getX() && homeY == getY())
-		{
-			eyesToGhost(idNumber);
-		}
 		if(directions.size() == 1){ //only one option
 			setDirection(directions.get(0));
 		}
@@ -229,16 +227,24 @@ public class Ghost extends MovingActor
 		return score;
 	}
 	
+	/**
+	 * Set the ghost to scared mode
+	 */
 	public void scare(){
 		scaredTime = SCARE_TIME;
 	}
 	
+	
+	/**
+	 * ghost to eyeball mode
+	 */
 	public void turnToEyeballMode(){
-		if(eyeball == false && isScared()){
-			eyeball = true;
+		if(eyeballMode == false && isScared()){
+			eyeballMode = true;
 			setSpeed(200);
 			haltMovment();
 			onNewDirection();
+			getGame().addScore(400);
 		}
 	}
 	
@@ -264,36 +270,8 @@ public class Ghost extends MovingActor
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
-		eyesToGhost(idNumber);
 	}
-	private void eyesToGhost(int idNumber)
-	{
-		if(idNumber == BLUE_ID)
-		{
-			ghostSprite.setImage(Resources.ghostB);
-		}
-		
-		if(idNumber == RED_ID)
-		{
-			ghostSprite.setImage(Resources.ghostR);
-		}
-		
-		if(idNumber == PINK_ID)
-		{
-			ghostSprite.setImage(Resources.ghostP);
-		}
-		
-		if(idNumber == ORANGE_ID)
-		{
-			ghostSprite.setImage(Resources.ghostO);
-		}
-		ghostSprite.setSize(getWidth(), getHeight());
-	}
-	private void ghostToEyes()
-	{
-		ghostSprite.setImage(Resources.deadEyes);
-		ghostSprite.setSize(15, 15);
-	}
+	
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;
@@ -304,10 +282,10 @@ public class Ghost extends MovingActor
 	public void onNewDirection(){
 		super.onNewDirection();
 		
-		if(eyeball){				
+		if(eyeballMode){				
 			returnHome();
 			if(Math.abs(homeX - getX()) < 50 && Math.abs(homeY - getY()) < 50){
-				eyeball = false;
+				eyeballMode = false;
 				leaveHomeTime = LEAVE_HOME_TIME;
 				scaredTime = 0;
 				setSpeed(100);
@@ -332,13 +310,10 @@ public class Ghost extends MovingActor
 		return scaredTime > 0;
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	public boolean collidesWithTile(MazeTile t) 
 	{
-		if(leaveHomeTime > 0 || eyeball){
+		if(leaveHomeTime > 0 || eyeballMode){
 			return t.ghostCollide();
 		} else{
 			return t.playerCollides();

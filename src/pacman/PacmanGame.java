@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class PacmanGame implements Game{
+	public static final Color BACKGROUND_COLOR = Color.BLACK;
+	
 	private Input input;
 	private List<Actor> actors;
 	private Maze maze;
@@ -93,6 +95,10 @@ public class PacmanGame implements Game{
 		{
 			addPacDots();
 		}
+	}
+	
+	public void addScore(int score){
+		gameScore += score;
 	}
 	
 	private void addPacmanAndGhosts(){

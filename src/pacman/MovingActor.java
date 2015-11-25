@@ -1,6 +1,5 @@
 package pacman;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,19 +16,32 @@ public abstract class MovingActor extends Actor {
 		direction = NONE;
 		preferredDirection = NONE;
 	}
-	
+
+	/**
+	 * @param speed in pixels per second
+	 */
 	public void setSpeed(double speed){
 		this.speed = speed;
 	}
 	
+	/**
+	 * UP, DOWN, LEFT or RIGHT.
+	 * dosn't change instantly but weights for in openening to change direction.
+	 */
 	public void setDirection(int d){
 		preferredDirection = d;
 	}
 	
+	/**
+	 * stops the moving actior.
+	 */
 	public void haltMovment(){
 		direction = NONE;
 	}
 	
+	/**
+	 * @return UP, DOWN, LEFT or RIGHT
+	 */
 	public int getDirection(){
 		return direction;
 	}
@@ -85,6 +97,7 @@ public abstract class MovingActor extends Actor {
 		}
 	}
 	
+	@Override
 	public void move(double changeX, double changeY){
 		if(!canMoveX(changeX)){
 			changeX = 0;
@@ -93,10 +106,11 @@ public abstract class MovingActor extends Actor {
 		while(!canMoveY(changeY)){
 			changeY = 0;
 		}
+		
 		super.move(changeX, changeY);
 	}
 	
-	public boolean canMoveX(double changeX){
+	private boolean canMoveX(double changeX){
 		double newX = changeX + getX();
 		
 		double pad = Math.abs(changeX);
@@ -114,7 +128,7 @@ public abstract class MovingActor extends Actor {
 		return true;
 	}
 	
-	public boolean canMoveY(double changeY){
+	private boolean canMoveY(double changeY){
 		double newY = changeY + getY();
 		
 		double pad = Math.abs(changeY);
@@ -132,6 +146,10 @@ public abstract class MovingActor extends Actor {
 		return true;
 	}
 	
+	/**
+	 * called when there is a new direction to explore.
+	 * Meant to be overridden.
+	 */
 	public void onNewDirection(){
 		
 	}
