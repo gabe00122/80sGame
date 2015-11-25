@@ -171,7 +171,7 @@ public class PacmanGame implements Game{
 		String score = String.valueOf(gameScore);
 //		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
 		g.setColor(Color.BLUE);
-		g.drawString("SCORE: ", 530, 50);
+		g.drawString("SCORE: ", 505, 50);
 		g.drawString(score, 540, 80);
 	}
 
