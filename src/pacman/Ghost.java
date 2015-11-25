@@ -153,9 +153,7 @@ public class Ghost extends MovingActor
 		scaredTime -= delta;
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		if(directions.size() == 1){ //only one option
@@ -191,9 +189,7 @@ public class Ghost extends MovingActor
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void fleeMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
@@ -230,13 +226,7 @@ public class Ghost extends MovingActor
 		}
 	}
 	
-	/**
-	 * 
-	 * @param dir
-	 * @param diffX
-	 * @param diffY
-	 * @return
-	 */
+	
 	private double getDirectionScore(int dir, double diffX, double diffY){
 		double score;
 		if(dir == LEFT){
@@ -275,45 +265,35 @@ public class Ghost extends MovingActor
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void chasePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		seekMovement();
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void fleePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		fleeMovement();
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
 		fleeMovement();
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void returnHome(){
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
 	}
 
-	/**
-	 * 
-	 */
+	
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;
