@@ -15,14 +15,14 @@ public interface Game{
 	public void draw(Graphics2D g);
 	
 	/**
-	 * called every frame used to update game logic.
+	 * Called every frame used to update game logic.
 	 * @param delta the time in seconds after the last call
 	 */
 	public void update(double delta);
 	
 	/**
-	 * gives the game an input object which can be use to assess keyboard input.
-	 * always called by GameDisplay
+	 * Gives the game an input object which can be use to assess keyboard input.
+	 * Always called by GameDisplay
 	 * @param input have keyboard input from gameDisplay
 	 */
 	public void setInput(Input input);

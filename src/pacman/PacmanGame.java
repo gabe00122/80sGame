@@ -14,16 +14,20 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class PacmanGame implements Game{
+	public static final Color BACKGROUND_COLOR = Color.BLACK;
+	
 	private Input input;
 	private List<Actor> actors;
 	private Maze maze;
 	private int dotCount;
 	private Pacman pacman;
+	private Ghost ghost;
 	private int gameScore;
 	private int lives;
 	private boolean paused;
 	private double startGameDelay = 4;
 	private double deathDelay = 1.5;
+	private double interDelay = 5;
 	private int gameState = START;
 	private static final int START = 0;
 	private static final int PLAYING = 1;
@@ -38,7 +42,7 @@ public class PacmanGame implements Game{
 		dotCount = 0;
 		gameScore = 0;	//
 		paused = true;
-		lives = 1;
+		lives = 3;
 		addPacmanAndGhosts();
 		addPacDots();
 	}
@@ -53,19 +57,32 @@ public class PacmanGame implements Game{
 	public void NextLife()
 	{
 		paused = true;
+		removeActor(pacman);
+		
+
+		removeActor(ghost);
+		removeActor(ghost);
+		removeActor(ghost);
+		removeActor(ghost);
+		addPacmanAndGhosts();
+		
+	}
+
+	public void LifeBegin()
+	{
+		paused = true;
 		maze = new Maze();
 		maze.loadTextMap(Resources.map);;
 		actors = new ArrayList<>();
 		dotCount = 0;
 		addPacmanAndGhosts();
-		addPacDots();
-
+		addPacDots();	
 	}
+	
 	public void GameOver()
 	{
 		//stop pacman and ghosts, write Game Over to screen.
 		paused = true;
-		
 		
 	}
 		
@@ -95,22 +112,32 @@ public class PacmanGame implements Game{
 		gameScore += 10;		//update score each time pellet consumed
 		if(dotCount == 0)
 		{
-			addPacDots();
+			NextLevel();
 		}
 	}
 	
-	private void addPacmanAndGhosts(){
+	public void addScore(int score){
+		gameScore += score;
+	}
+	
+	private void addPacmanAndGhosts()
+	{
 		int ghostCount = 0;
 		
-		for(int y = 0;y < maze.getMazeH(); y++){
-			for(int x = 0; x < maze.getMazeW(); x++){
+		for(int y = 0;y < maze.getMazeH(); y++)
+		{
+			for(int x = 0; x < maze.getMazeW(); x++)
+			{
 				TileType tileType = maze.getTile(x, y).getTileType();
-				if(tileType == TileType.PACMAN_SPAWN){
+				if(tileType == TileType.PACMAN_SPAWN)
+				{
 					pacman = new Pacman();
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
-				} else if(tileType == TileType.GHOST_SPAWN){
-					Ghost ghost = new Ghost(ghostCount++ % 4);
+				}
+				else if(tileType == TileType.GHOST_SPAWN)
+				{
+					ghost = new Ghost(ghostCount++ % 4);
 					ghost.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 					addActor(ghost);
 				}
@@ -148,17 +175,15 @@ public class PacmanGame implements Game{
 		String life = String.valueOf(lives);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 25));
 		g.setColor(Color.BLACK);
-		g.drawString("Lives: " + life, 510, 20);
+		g.drawString("Lives: " + life, 480, 20);
 		String score = String.valueOf(gameScore);
-		g.setColor(Color.BLUE);
-		g.drawString("SCORE: ", 530, 50);
-		g.drawString(score, 540, 80);
+		g.drawString("SCORE: " + score, 50, 20);
 		
 		if (lives <= 0)
 		{
-			g.setColor(Color.BLACK);
+			g.setColor(Color.WHITE);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 80));
-			g.drawString("GAME OVER",  100,  250);
+			g.drawString("GAME OVER", 60,  230);
 		}
 	}
 
@@ -177,6 +202,7 @@ public class PacmanGame implements Game{
 		
 		if (gameState == PLAYING)
 		{
+			//Resources.siren.loop();
 			for (int i = 0;i < actors.size();i++)
 			{
 				actors.get(i).update(delta);
@@ -191,39 +217,25 @@ public class PacmanGame implements Game{
 				if (lives <= 0)
 				{
 					GameOver();
-					
 				}
 
 				else
 				{
+					//MidRun();
 					StartRun();
 				}
 			}
 		}
-//		if (gameState = NEWLEVEL)
-//		{
-//			newLevelDelay -= delta;
-//			if (newLevelDelay < 0)
-//			{
-//				NewLevel();
-//				StartRun();
-//			}
-//		}
+		if (gameState == NEWLEVEL)
+		{
+			interDelay -= delta;
+			if (interDelay < 0)
+			{
+				StartRun();
+			}
+		}
 	}
 
-//	startGameDelay-= delta;
-//	if (!paused)
-//	{
-//	for(int i = 0;i < actors.size();i++)
-//			{
-//		actors.get(i).update(delta);
-//			}
-//	}
-//	if(startGameDelay < 0)
-//	{
-//		paused = false;
-//	}
-	
 	public void DeathRun()
 	{
 		deathDelay = 1.5;
@@ -233,10 +245,25 @@ public class PacmanGame implements Game{
 		
 	public void StartRun()
 	{
+		LifeBegin();
+		startGameDelay = 4;
+		Resources.openingSong.play();
+		gameState = START;
+	}
+	
+	public void MidRun()
+	{
 		NextLife();
 		startGameDelay = 4;
 		Resources.openingSong.play();
 		gameState = START;
+	}
+
+	public void NextLevel()
+	{
+		interDelay = 5;
+		Resources.intermission.play();
+		gameState = NEWLEVEL;
 	}
 	
 	public Maze getMaze(){
@@ -252,7 +279,7 @@ public class PacmanGame implements Game{
 	public void removeActor(Actor actor){
 		actors.remove(actor);
 	}
-	
+		
 	@Override
 	public void setInput(Input input) {
 		this.input = input;

@@ -27,6 +27,9 @@ public class PacDot extends Actor {
 		
 	}
 	
+	/**
+	 * removes the pac dot and adds some to the score
+	 */
 	public void eat(){
 		getGame().removeActor(this);
 		getGame().removePacDot();
@@ -38,6 +41,11 @@ public class PacDot extends Actor {
 		}
 	}
 
+	@Override
+	public boolean checkCollison(double x, double y, double w, double h) {
+		return getX() > x-w/2 && getY() > y-h/2 && getX() < x+w/2 && getY() < y+h/2;
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub

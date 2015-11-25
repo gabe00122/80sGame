@@ -63,8 +63,8 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		game.setInput(keyboard);
 	}
 	
-	/*
-	 * set
+	/**
+	 * the game display will update the games via update(delta) aproximently this many times per second if it can.
 	 */
 	public void setTargetFps(int fps){
 		targetFps = fps;
@@ -86,6 +86,7 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
 		AffineTransform saveX = g2.getTransform();
@@ -118,6 +119,9 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		
 	}
 
+	/**
+	 * The game loop.
+	 */
 	@Override
 	public void run() {
 		lastUpdateTime = System.nanoTime();
@@ -158,10 +162,17 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		g.drawString("FPS: " + currentFPS, 10, 20);
 	}
 	
+	/**
+	 * Creates a thread to call update on the game. Starts the Game loop.
+	 */
 	public void start(){
 		new Thread(this).start();
 	}
 	
+	/**
+	 * Updates the game by a delta in seconds. Will repaint the panel.
+	 * @param deltaTime
+	 */
 	public void updateGame(double deltaTime){
 		game.update(deltaTime);
 		
