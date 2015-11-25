@@ -8,11 +8,10 @@ import swinggames.Sprite;
  * This class is a child of MovingActor and creates ghosts
  * for use in a Pacman game.
  */
-public class Ghost extends MovingActor 
+public abstract class Ghost extends MovingActor 
 {
 	private Sprite ghostSprite;
 	private Image ghostImage, scaredImage, eyesImage;
-	private static final int BLUE_ID = 0, RED_ID = 1, PINK_ID = 2, ORANGE_ID = 3;
 	private static final int SEEK_TIME = 20;
 	private static final int SCATTER_TIME = 7;
 	private static final int SCARE_TIME = 10;
@@ -20,8 +19,8 @@ public class Ghost extends MovingActor
 	private static final double SPEED = 100;
 	private static final double EYEBALL_SPEED = 200;	
 	
-	private int idNumber;
-	private double targetX, targetY;
+	protected double targetX;
+	protected double targetY;
 	private double cornerTargetX, cornerTargetY;
 	private double homeX, homeY;
 	private double seekTime;
@@ -32,7 +31,7 @@ public class Ghost extends MovingActor
 	 * This method is used to create all ghosts and initializing the instance variables. 
 	 * @param number The respective idNumber that correlates with each ghost. Between one and four.
 	 */
-	public Ghost(int number)
+	public Ghost()
 	{
 		super();
 		setSize(50, 50);
@@ -43,27 +42,8 @@ public class Ghost extends MovingActor
 		leaveHomeTime = LEAVE_HOME_TIME;
 		eyeballMode = false;
 		
-		idNumber = number;
 		//creating ghosts (blue, red, pink, orange)
-		if(number == BLUE_ID)
-		{
-			ghostImage = Resources.ghostB;
-		}
-		
-		if(number == RED_ID)
-		{
-			ghostImage = Resources.ghostR;
-		}
-		
-		if(number == PINK_ID)
-		{
-			ghostImage = Resources.ghostP;
-		}
-		
-		if(number == ORANGE_ID)
-		{
-			ghostImage = Resources.ghostO;
-		}
+		ghostImage = getGhostImage();
 		
 		ghostSprite = new Sprite(ghostImage);
 		ghostSprite.setSize(getWidth(), getHeight());
@@ -71,6 +51,8 @@ public class Ghost extends MovingActor
 		scaredImage = Resources.ghostS;
 		eyesImage = Resources.deadEyes;
 	}
+	
+	public abstract Image getGhostImage();
 	
 	/**
 	 * This method initializes where the ghosts will try to go once the game starts.
@@ -80,30 +62,13 @@ public class Ghost extends MovingActor
 		homeX = getX();
 		homeY = getY();
 		
-		if(idNumber == BLUE_ID)
-		{
-			cornerTargetX = 0;
-			cornerTargetY = 0;
-		}
-		
-		if(idNumber == RED_ID)
-		{
-			cornerTargetX = (getGame().getMaze().getMazeW()) * Maze.TILE_WEIGHT;
-			cornerTargetY = 0;
-		}
-		
-		if(idNumber == PINK_ID)
-		{
-			cornerTargetX = 0;
-			cornerTargetY = (getGame().getMaze().getMazeH()) * Maze.TILE_HEIGHT;
-		}
-		
-		if(idNumber == ORANGE_ID)
-		{
-			cornerTargetX = (getGame().getMaze().getMazeW()) * Maze.TILE_WEIGHT;
-			cornerTargetY = (getGame().getMaze().getMazeH()) * Maze.TILE_HEIGHT;
-		}
+		cornerTargetX = getCournerX();
+		cornerTargetY = getCournerY();
 	}
+	
+	public abstract double getCournerX();
+	
+	public abstract double getCournerY();
 	
 	/**
 	 * This method checks to see if the ghosts are still alive and redraws them when 
@@ -112,25 +77,23 @@ public class Ghost extends MovingActor
 	 */
 	public void draw(Graphics2D g) 
 	{
+		ghostSprite.setPosition(getX(), getY());
+		
 		if(eyeballMode){
 			ghostSprite.setImage(eyesImage);
-			ghostSprite.setSize(getWidth(), getHeight());
-			ghostSprite.setPosition(getX(), getY());
 			ghostSprite.draw(g);
 		}
 		else if(scaredTime <= 0){
 			ghostSprite.setImage(ghostImage);
-			ghostSprite.setSize(getWidth(), getHeight());
-			ghostSprite.setPosition(getX(), getY());
 			ghostSprite.draw(g);
 		} else {
 			if(scaredTime > 3 || (int)(scaredTime/0.5) % 2 == 0){
 				ghostSprite.setImage(scaredImage);
-				ghostSprite.setSize(getWidth(), getHeight());
-				ghostSprite.setPosition(getX(), getY());
 				ghostSprite.draw(g);
 			}
 		}
+		
+		//g.drawRect((int)(targetX-5), (int)(targetY-5), 10, 10);
 	}	
 	
 	/**
@@ -156,7 +119,7 @@ public class Ghost extends MovingActor
 	/**
 	 * 
 	 */
-	private void seekMovement(){
+	protected void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		if(directions.size() == 1){ //only one option
 			setDirection(directions.get(0));
@@ -278,16 +241,13 @@ public class Ghost extends MovingActor
 	/**
 	 * 
 	 */
-	private void chasePacman(){
-		targetX = getGame().getPacman().getX();
-		targetY = getGame().getPacman().getY();
-		seekMovement();
-	}
+	public abstract void chasePacman();
+	
 	
 	/**
 	 * 
 	 */
-	private void fleePacman(){
+	protected void fleePacman(){
 		targetX = getGame().getPacman().getX();
 		targetY = getGame().getPacman().getY();
 		fleeMovement();
@@ -296,7 +256,7 @@ public class Ghost extends MovingActor
 	/**
 	 * 
 	 */
-	private void leaveHome(){
+	protected void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
 		fleeMovement();
