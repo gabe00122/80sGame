@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 public class Resources {
 	public static Image pacman;
 	public static Image ghostB, ghostR, ghostP, ghostO, ghostS, cherry, orange, strawberry, deadEyes;
-	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka;
+	public static AudioClip pacmanDies, eatingGhost, openingSong, eatingFruit, wakaWaka, intermission, siren;
 	public static String[] map;
 
 	/**
@@ -42,11 +42,13 @@ public class Resources {
 			
 			map = loadTextMap(new File("assets/map.txt"));
 			
-			pacmanDies 	= Applet.newAudioClip(new URL("file:assets/pacman_dies.wav"));
-			eatingGhost = Applet.newAudioClip(new URL("file:assets/eating_ghost.wav"));
-			openingSong = Applet.newAudioClip(new URL("file:assets/intro_music.wav"));
-			eatingFruit = Applet.newAudioClip(new URL("file:assets/eating_fruit.wav"));
-			wakaWaka 	= Applet.newAudioClip(new URL("file:assets/waka_waka.wav"));
+			pacmanDies   = Applet.newAudioClip(new URL("file:assets/pacman_dies.wav"));
+			eatingGhost  = Applet.newAudioClip(new URL("file:assets/eating_ghost.wav"));
+			openingSong  = Applet.newAudioClip(new URL("file:assets/intro_music.wav"));
+			eatingFruit  = Applet.newAudioClip(new URL("file:assets/eating_fruit.wav"));
+			wakaWaka     = Applet.newAudioClip(new URL("file:assets/waka.wav"));
+			intermission = Applet.newAudioClip(new URL("file:assets/pacman_intermission.wav"));
+			siren        = Applet.newAudioClip(new URL("file:assets/siren.wav"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

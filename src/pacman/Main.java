@@ -20,7 +20,6 @@ public class Main {
 		GameDisplay display = new GameDisplay(test, 600, 600);
 		display.setTargetFps(60);
 		
-		
 		frame.add(display);
 		frame.setVisible(true);
 		
