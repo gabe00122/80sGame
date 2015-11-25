@@ -26,14 +26,14 @@ public abstract class MovingActor extends Actor {
 	
 	/**
 	 * UP, DOWN, LEFT or RIGHT.
-	 * dosn't change instantly but weights for in openening to change direction.
+	 * doesn't change instantly but waits for an opening to change direction.
 	 */
 	public void setDirection(int d){
 		preferredDirection = d;
 	}
 	
 	/**
-	 * stops the moving actior.
+	 * stops the moving actor.
 	 */
 	public void haltMovment(){
 		direction = NONE;

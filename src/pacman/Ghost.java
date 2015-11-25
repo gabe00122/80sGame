@@ -154,9 +154,7 @@ public abstract class Ghost extends MovingActor
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void fleeMovement(){
 		List<Integer> directions = getDirectionChoses();
 		
@@ -193,13 +191,7 @@ public abstract class Ghost extends MovingActor
 		}
 	}
 	
-	/**
-	 * 
-	 * @param dir
-	 * @param diffX
-	 * @param diffY
-	 * @return
-	 */
+	
 	private double getDirectionScore(int dir, double diffX, double diffY){
 		double score;
 		if(dir == LEFT){
@@ -243,7 +235,6 @@ public abstract class Ghost extends MovingActor
 	 */
 	public abstract void chasePacman();
 	
-	
 	/**
 	 * 
 	 */
@@ -262,18 +253,14 @@ public abstract class Ghost extends MovingActor
 		fleeMovement();
 	}
 	
-	/**
-	 * 
-	 */
+	
 	private void returnHome(){
 		targetX = homeX;
 		targetY = homeY + Maze.TILE_HEIGHT;
 		seekMovement();
 	}
 
-	/**
-	 * 
-	 */
+	
 	private void gotoCorner(){
 		targetX = cornerTargetX;
 		targetY = cornerTargetY;

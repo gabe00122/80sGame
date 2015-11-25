@@ -28,7 +28,6 @@ public class OrangeGhost extends Ghost{
 			targetX = pacman.getX();
 			targetY = pacman.getY();
 		} else {
-			System.out.println("to close");
 			targetX = getCournerX();
 			targetY = getCournerY();
 		}
