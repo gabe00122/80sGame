@@ -28,6 +28,7 @@ public class Ghost extends MovingActor
 	private double scaredTime;
 	private double leaveHomeTime;
 	private boolean eyeballMode;
+	
 	/**
 	 * This method is used to create all ghosts and initializing the instance variables. 
 	 * @param number The respective idNumber that correlates with each ghost. Between one and four.
@@ -246,14 +247,14 @@ public class Ghost extends MovingActor
 	}
 	
 	/**
-	 * Set the ghost to scared mode
+	 * Set the scare time for the ghosts.
 	 */
 	public void scare(){
 		scaredTime = SCARE_TIME;
 	}
 	
 	/**
-	 * ghost to eyeball mode
+	 * This method changes changes the status of a ghost to eyeballs.
 	 */
 	public void turnToEyeballMode(){
 		if(eyeballMode == false && isScared()){
@@ -332,13 +333,16 @@ public class Ghost extends MovingActor
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * This method returns the time left before changing back to a regular ghost.
+	 * @return time left before scared ghost changes back to regular ghost.
 	 */
 	public boolean isScared(){
 		return scaredTime > 0;
 	}
-	
+	/**
+	 * 
+	 * @return 
+	 */
 	public boolean isEyeball(){
 		return eyeballMode;
 	}
