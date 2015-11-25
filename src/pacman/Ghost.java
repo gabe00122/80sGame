@@ -13,10 +13,12 @@ public class Ghost extends MovingActor
 	private Sprite ghostSprite;
 	private Image ghostImage, scaredImage, eyesImage;
 	private static final int BLUE_ID = 0, RED_ID = 1, PINK_ID = 2, ORANGE_ID = 3;
-	private static final int SEEK_TIME = 5;
-	private static final int SCATTER_TIME = 5;
+	private static final int SEEK_TIME = 20;
+	private static final int SCATTER_TIME = 7;
 	private static final int SCARE_TIME = 10;
 	private static final int LEAVE_HOME_TIME = 5;	
+	private static final double SPEED = 100;
+	private static final double EYEBALL_SPEED = 200;	
 	
 	private int idNumber;
 	private double targetX, targetY;
@@ -34,7 +36,7 @@ public class Ghost extends MovingActor
 	{
 		super();
 		setSize(50, 50);
-		setSpeed(100);
+		setSpeed(SPEED);
 		
 		seekTime = 0;
 		scaredTime = 0;
@@ -80,26 +82,26 @@ public class Ghost extends MovingActor
 		
 		if(idNumber == BLUE_ID)
 		{
-			cornerTargetX = Maze.TILE_WEIGHT;
-			cornerTargetY = Maze.TILE_HEIGHT;
+			cornerTargetX = 0;
+			cornerTargetY = 0;
 		}
 		
 		if(idNumber == RED_ID)
 		{
-			cornerTargetX = (getGame().getMaze().getMazeW()-1) * Maze.TILE_WEIGHT;
-			cornerTargetY = Maze.TILE_HEIGHT;
+			cornerTargetX = (getGame().getMaze().getMazeW()) * Maze.TILE_WEIGHT;
+			cornerTargetY = 0;
 		}
 		
 		if(idNumber == PINK_ID)
 		{
-			cornerTargetX = Maze.TILE_WEIGHT;
-			cornerTargetY = (getGame().getMaze().getMazeH()-1) * Maze.TILE_HEIGHT;
+			cornerTargetX = 0;
+			cornerTargetY = (getGame().getMaze().getMazeH()) * Maze.TILE_HEIGHT;
 		}
 		
 		if(idNumber == ORANGE_ID)
 		{
-			cornerTargetX = (getGame().getMaze().getMazeW()-1) * Maze.TILE_WEIGHT;
-			cornerTargetY = (getGame().getMaze().getMazeH()-1) * Maze.TILE_HEIGHT;
+			cornerTargetX = (getGame().getMaze().getMazeW()) * Maze.TILE_WEIGHT;
+			cornerTargetY = (getGame().getMaze().getMazeH()) * Maze.TILE_HEIGHT;
 		}
 	}
 	
@@ -266,7 +268,7 @@ public class Ghost extends MovingActor
 	public void turnToEyeballMode(){
 		if(eyeballMode == false && isScared()){
 			eyeballMode = true;
-			setSpeed(200);
+			setSpeed(EYEBALL_SPEED);
 			haltMovment();
 			onNewDirection();
 			getGame().addScore(400);
@@ -331,7 +333,7 @@ public class Ghost extends MovingActor
 				eyeballMode = false;
 				leaveHomeTime = LEAVE_HOME_TIME;
 				scaredTime = 0;
-				setSpeed(100);
+				setSpeed(SPEED);
 			}
 		}
 		else{
@@ -355,6 +357,10 @@ public class Ghost extends MovingActor
 	 */
 	public boolean isScared(){
 		return scaredTime > 0;
+	}
+	
+	public boolean isEyeball(){
+		return eyeballMode;
 	}
 	
 	@Override

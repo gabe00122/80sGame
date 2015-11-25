@@ -67,7 +67,7 @@ public class Pacman extends MovingActor{
 			setDirection(RIGHT);
 		}
 		
-		for (Actor other: getGame().checkCollisons(getX(), getY(), getWidth(), getHeight())) {
+		for (Actor other: getGame().checkCollisons(getX(), getY(), getWidth()/2, getHeight()/2)) {
 			collison(other);
 		}
 	}
@@ -81,7 +81,9 @@ public class Pacman extends MovingActor{
 				g.turnToEyeballMode();
 			}
 			else {
-				getGame().reset();
+				if(!g.isEyeball()){
+					getGame().reset();
+				}
 			}
 		}
 	}
