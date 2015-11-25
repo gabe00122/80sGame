@@ -104,6 +104,8 @@ public class PacmanGame implements Game{
 	private void addPacmanAndGhosts(){
 		int ghostCount = 0;
 		
+		Ghost redGhost = null;
+		
 		for(int y = 0;y < maze.getMazeH(); y++){
 			for(int x = 0; x < maze.getMazeW(); x++){
 				TileType tileType = maze.getTile(x, y).getTileType();
@@ -112,7 +114,22 @@ public class PacmanGame implements Game{
 					addActor(pacman);
 					pacman.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 				} else if(tileType == TileType.GHOST_SPAWN){
-					Ghost ghost = new Ghost(ghostCount++ % 4);
+					Ghost ghost;
+					switch (ghostCount++ % 4) {
+					case 0:
+						ghost = new RedGhost();
+						redGhost = ghost;
+						break;
+					case 1:
+						ghost = new OrangeGhost();
+						break;
+					case 2:
+						ghost = new PinkGhost();
+						break;
+					default:
+						ghost = new BlueGhost(redGhost);
+					}
+					
 					ghost.setPosition(x*Maze.TILE_HEIGHT, y*Maze.TILE_WEIGHT);
 					addActor(ghost);
 				}
