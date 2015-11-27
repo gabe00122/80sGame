@@ -2,6 +2,8 @@ package pacman;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.List;
+import java.util.Random;
+
 import swinggames.Sprite;
 
 /**
@@ -27,7 +29,7 @@ public abstract class Ghost extends MovingActor
 	private double scaredTime;
 	private double leaveHomeTime;
 	private boolean eyeballMode;
-	
+	private Random rand;
 	/**
 	 * This method is used to create all ghosts and initializing the instance variables. 
 	 * @param number The respective idNumber that correlates with each ghost. Between one and four.
@@ -51,6 +53,8 @@ public abstract class Ghost extends MovingActor
 		
 		scaredImage = Resources.ghostS;
 		eyesImage = Resources.deadEyes;
+		
+		rand = new Random();
 	}
 	
 	public abstract Image getGhostImage();
@@ -128,15 +132,7 @@ public abstract class Ghost extends MovingActor
 		}
 		else {
 			//can't go back the way we came
-			if(getDirection() == UP){
-				directions.remove((Object)DOWN);
-			} else if(getDirection() == DOWN){
-				directions.remove((Object)UP);
-			} else if(getDirection() == LEFT){
-				directions.remove((Object)RIGHT);
-			} else if(getDirection() == RIGHT){
-				directions.remove((Object)LEFT);
-			}
+			removeBackward(directions);
 			
 			double diffX = targetX - getX();
 			double diffY = targetY - getY();
@@ -156,6 +152,20 @@ public abstract class Ghost extends MovingActor
 		}
 	}
 	
+	private void randomMovement(){
+		List<Integer> directions = getDirectionChoses();
+		
+		if(directions.size() == 1){ //only one option
+			setDirection(directions.get(0));
+		}
+		else {
+			//can't go back the way we came
+			removeBackward(directions);
+			
+			//random movement
+			setDirection(directions.get(rand.nextInt(directions.size())));
+		}
+	}
 	
 	private void fleeMovement(){
 		List<Integer> directions = getDirectionChoses();
@@ -165,15 +175,7 @@ public abstract class Ghost extends MovingActor
 		}
 		else {
 			//can't go back the way we came
-			if(getDirection() == UP){
-				directions.remove((Object)DOWN);
-			} else if(getDirection() == DOWN){
-				directions.remove((Object)UP);
-			} else if(getDirection() == LEFT){
-				directions.remove((Object)RIGHT);
-			} else if(getDirection() == RIGHT){
-				directions.remove((Object)LEFT);
-			}
+			removeBackward(directions);
 			
 			double diffX = targetX - getX();
 			double diffY = targetY - getY();
@@ -193,6 +195,17 @@ public abstract class Ghost extends MovingActor
 		}
 	}
 	
+	private void removeBackward(List<Integer> directions){
+		if(getDirection() == UP){
+			directions.remove((Object)DOWN);
+		} else if(getDirection() == DOWN){
+			directions.remove((Object)UP);
+		} else if(getDirection() == LEFT){
+			directions.remove((Object)RIGHT);
+		} else if(getDirection() == RIGHT){
+			directions.remove((Object)LEFT);
+		}
+	}
 	
 	private double getDirectionScore(int dir, double diffX, double diffY){
 		double score;
@@ -240,15 +253,6 @@ public abstract class Ghost extends MovingActor
 	/**
 	 * 
 	 */
-	protected void fleePacman(){
-		targetX = getGame().getPacman().getX();
-		targetY = getGame().getPacman().getY();
-		fleeMovement();
-	}
-	
-	/**
-	 * 
-	 */
 	protected void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
@@ -290,7 +294,7 @@ public abstract class Ghost extends MovingActor
 				leaveHome();
 			}
 			else if(scaredTime > 0){
-				fleePacman();
+				randomMovement();
 			}else if(seekTime <= 0){
 				gotoCorner();
 			}
