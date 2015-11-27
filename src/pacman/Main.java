@@ -17,7 +17,7 @@ public class Main {
 		
 		
 		PacmanGame test = new PacmanGame();
-		GameDisplay display = new GameDisplay(test, 600, 600);
+		GameDisplay display = new GameDisplay(test, 800, 800);
 		display.setTargetFps(60);
 		
 		frame.add(display);

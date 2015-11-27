@@ -34,6 +34,7 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	
 	private int w, h;
 	private AffineTransform trans;
+	private boolean showFps;
 	
 	/**
 	 * 
@@ -46,6 +47,8 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		addKeyListener(this);
 		addComponentListener(this);
 		setDoubleBuffered(true);
+		
+		showFps = false;
 		
 		w = width;
 		h = height;
@@ -68,6 +71,10 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 	 */
 	public void setTargetFps(int fps){
 		targetFps = fps;
+	}
+	
+	public void setShowFps(boolean showFps){
+		this.showFps = showFps;
 	}
 	
 	private void updateTransform(){
@@ -98,7 +105,9 @@ public class GameDisplay extends JComponent implements KeyListener, ComponentLis
 		g2.setClip(null);
 		g2.setTransform(saveX);
 		
-		drawFps(g2);
+		if(showFps){
+			drawFps(g2);
+		}
 	}
 	
 

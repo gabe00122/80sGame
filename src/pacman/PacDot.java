@@ -9,16 +9,16 @@ public class PacDot extends Actor {
 	public PacDot(double x, double y, boolean mega) {
 		megaDot = mega;
 		if(mega){
-			setSize(15, 15);
+			setSize(20, 20);
 		}else{
-			setSize(10, 10);
+			setSize(8, 8);
 		}
 		setPosition(x, y);
 	}
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.gray);
+		g.setColor(Color.lightGray);
 		g.fillOval((int)(getX()-getWidth()/2), (int)(getY()-getHeight()/2), (int)getWidth(), (int)getHeight());
 	}
 	

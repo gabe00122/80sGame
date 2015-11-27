@@ -15,9 +15,9 @@ public abstract class Ghost extends MovingActor
 	private static final int SEEK_TIME = 20;
 	private static final int SCATTER_TIME = 7;
 	private static final int SCARE_TIME = 10;
-	private static final int LEAVE_HOME_TIME = 5;	
+	private static final int LEAVE_HOME_TIME = 2;	
 	private static final double SPEED = 100;
-	private static final double EYEBALL_SPEED = 200;	
+	private static final double EYEBALL_SPEED = 300;	
 	
 	protected double targetX;
 	protected double targetY;
@@ -107,10 +107,11 @@ public abstract class Ghost extends MovingActor
 	{
 		super.update(delta);
 		
-		
-		seekTime -= delta;
-		if(seekTime < -SCATTER_TIME){
-			seekTime = SEEK_TIME;
+		if(!eyeballMode && leaveHomeTime < 0 && scaredTime < 0){
+			seekTime -= delta;
+			if(seekTime < -SCATTER_TIME){
+				seekTime = SEEK_TIME;
+			}
 		}
 		
 		leaveHomeTime -= delta;
@@ -257,7 +258,7 @@ public abstract class Ghost extends MovingActor
 	
 	private void returnHome(){
 		targetX = homeX;
-		targetY = homeY + Maze.TILE_HEIGHT;
+		targetY = homeY;
 		seekMovement();
 	}
 
