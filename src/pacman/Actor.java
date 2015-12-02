@@ -2,6 +2,12 @@ package pacman;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * 
+ * An actor is used used by all moving actors. 
+ * Ghosts and pacman.
+ *
+ */
 public abstract class Actor {
 	private PacmanGame game;
 	protected Rectangle2D.Double rect;
@@ -14,13 +20,15 @@ public abstract class Actor {
 	}
 	
 	/**
-	 * @return in pixels
+	 * Get x location in game window.
+	 * @return location in pixels
 	 */
 	public double getX() {
 		return rect.x;
 	}
 
 	/**
+	 * Set a new x location in game window.
 	 * @param x in pixels
 	 */
 	public void setX(double x) {
@@ -28,6 +36,7 @@ public abstract class Actor {
 	}
 	
 	/**
+	 * Get y location in game window.
 	 * @return in pixels
 	 */
 	public double getY() {
@@ -35,6 +44,7 @@ public abstract class Actor {
 	}
 
 	/**
+	 * Set a new y location in game window.
 	 * @param y in pixels
 	 */
 	public void setY(double y) {
@@ -42,13 +52,15 @@ public abstract class Actor {
 	}
 
 	/**
-	 * @return in pixels
+	 * Get width of screen object.
+	 * @return size in pixels
 	 */
 	public double getWidth() {
 		return rect.width;
 	}
 	
 	/**
+	 * Set width of screen object.
 	 * @param width in pixels
 	 */
 	public void setWidth(double width) {

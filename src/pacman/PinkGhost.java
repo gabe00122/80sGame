@@ -4,7 +4,10 @@ import java.awt.Image;
 
 public class PinkGhost extends Ghost{
 	private static final double PINK_LEED = 3;
-
+	
+	/**
+	 * Load ghost image from resource file.
+	 */
 	@Override
 	public Image getGhostImage() {
 		return Resources.ghostP;
@@ -21,6 +24,9 @@ public class PinkGhost extends Ghost{
 	}
 
 	@Override
+	/**
+	 * Get location of pacman and move in the direction of pacman.
+	 */
 	public void chasePacman() {
 		Pacman pacman = getGame().getPacman();
 		targetX = pacman.getX();

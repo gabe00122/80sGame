@@ -30,6 +30,7 @@ public abstract class Ghost extends MovingActor
 	private double leaveHomeTime;
 	private boolean eyeballMode;
 	private Random rand;
+	
 	/**
 	 * This method is used to create all ghosts and initializing the instance variables. 
 	 * @param number The respective idNumber that correlates with each ghost. Between one and four.
@@ -56,11 +57,14 @@ public abstract class Ghost extends MovingActor
 		
 		rand = new Random();
 	}
-	
+	/**
+	 * Load ghost images.
+	 */
 	public abstract Image getGhostImage();
 	
 	/**
-	 * This method initializes where the ghosts will try to go once the game starts.
+	 * This method initializes where the ghosts home and destination 
+	 * are located.
 	 * @Override
 	 */
 	public void init() {
@@ -122,9 +126,7 @@ public abstract class Ghost extends MovingActor
 		scaredTime -= delta;
 	}
 	
-	/**
-	 * 
-	 */
+
 	protected void seekMovement(){
 		List<Integer> directions = getDirectionChoses();
 		if(directions.size() == 1){ //only one option
@@ -233,7 +235,7 @@ public abstract class Ghost extends MovingActor
 	}
 	
 	/**
-	 * This method changes changes the status of a ghost to eyeballs.
+	 * This method changes the status of a ghost to eyeballs.
 	 */
 	public void turnToEyeballMode(){
 		if(eyeballMode == false && isScared()){
@@ -246,13 +248,11 @@ public abstract class Ghost extends MovingActor
 	}
 	
 	/**
-	 * 
+	 * Get pacmans location and move in that direction.
 	 */
 	public abstract void chasePacman();
 	
-	/**
-	 * 
-	 */
+	
 	protected void leaveHome(){
 		targetX = homeX;//  - Maze.TILE_WEIGHT;
 		targetY = homeY;// + Maze.TILE_HEIGHT * 2;
@@ -273,9 +273,7 @@ public abstract class Ghost extends MovingActor
 		seekMovement();
 	}
 	
-	/**
-	 * 
-	 */
+
 	@Override
 	public void onNewDirection(){
 		super.onNewDirection();
