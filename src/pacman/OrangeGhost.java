@@ -4,7 +4,10 @@ import java.awt.Image;
 
 public class OrangeGhost extends Ghost{
 	
-	@Override
+	/**
+	 * Load ghost image from resource file.
+	 * @Override
+	 */
 	public Image getGhostImage() {
 		return Resources.ghostO;
 	}
@@ -20,6 +23,9 @@ public class OrangeGhost extends Ghost{
 	}
 
 	@Override
+	/**
+	 * Get pacmans location and move in that direction.
+	 */
 	public void chasePacman() {
 		Pacman pacman = getGame().getPacman();
 		//more then 8 tiles away

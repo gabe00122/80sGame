@@ -10,7 +10,10 @@ public class BlueGhost extends Ghost{
 		super();
 		red = redGhost;
 	}
-
+	
+	/**
+	 * Load ghost image from resource file.
+	 */
 	@Override
 	public Image getGhostImage() {
 		return Resources.ghostB;
@@ -26,7 +29,9 @@ public class BlueGhost extends Ghost{
 		return getGame().getMaze().getMazeH() * Maze.TILE_HEIGHT;
 	}
 
-	@Override
+	/**
+	 * Get location of pacman and red ghost and move in the direction of pacman teaming with red ghost.
+	 */
 	public void chasePacman() {
 		Pacman pacman = getGame().getPacman();
 		
